@@ -12,7 +12,7 @@ export class Note {
     this.midi = midi;
   }
 
-  static fromMidi(midi) {
+  static fromMidi(midi: number) {
     return new Note(midi);
   }
 
@@ -23,22 +23,22 @@ export class Note {
 }
 
 const SCIENTIFIC = {
-  'A#': 2,
-  B: 3,
-  A: 1,
-  C: 4,
-  'C#': 5,
-  D: 6,
-  'D#': 7,
-  E: 8,
-  F: 9,
-  'F#': 10,
-  G: 11,
-  'G#': 12,
+  c: 0,
+  d: 2,
+  e: 4,
+  f: 5,
+  g: 7,
+  a: 9,
+  b: 11,
 };
 
-const SCIENTIFIC_REGEXP = /^([ABCDEFG])(\#?)(\d?)$/i;
-export const scientificToMidi = (scientific: string) => {
+const MIDI = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+
+// 0 midi is A-5
+const FIRST_OCTAVE = -5;
+
+const SCIENTIFIC_REGEXP = /^([ABCDEFG])(\#?)(\-?\d?)$/i;
+export const scientificToMidi = (scientific: string): number => {
   const match = scientific.match(SCIENTIFIC_REGEXP);
   if (!match) {
     throw new Error(
@@ -47,5 +47,23 @@ export const scientificToMidi = (scientific: string) => {
       )}, got ${scientific}`,
     );
   }
-  return match;
+
+  const letter = match[1].toLowerCase();
+  const sharp = !!match[2];
+  const octave = parseInt(match[3], 10);
+  if (['b', 'e'].includes(letter) && sharp === true) {
+    throw new Error(`B and E don't have sharps. got: ${scientific}`);
+  }
+
+  let baseMidi = SCIENTIFIC[letter];
+  if (sharp) {
+    baseMidi += 1;
+  }
+  return baseMidi + (octave - FIRST_OCTAVE) * 12;
+};
+
+export const midiToScientific = (midi: number) => {
+  const octave = Math.floor(midi / 12);
+  const baseMidi = midi % 12;
+  return `${MIDI[baseMidi].toUpperCase()}${octave + FIRST_OCTAVE}`;
 };
