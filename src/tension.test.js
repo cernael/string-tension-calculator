@@ -1,13 +1,22 @@
 // @flow
 
-import {Note, scientificToMidi, midiToScientific} from './tension.js';
+import {
+  Note,
+  scientificToMidi,
+  midiToScientific,
+  midiToFreq,
+} from './tension.js';
 
-(test: any).each(['lol', 'Ab', 'A#11', 'A11'])(
+(test: any).each(['lol', 'Ab', 'A#11t', 'A1?1'])(
   'from scientific blows up with %p',
   scientific => {
     expect(() => Note.fromScientific(scientific)).toThrowError('scientific');
   },
 );
+
+(test: any).each(['c-2', 'a-10', 'b-3'])('%p is too low', scientific => {
+  expect(() => Note.fromScientific(scientific)).toThrowError('lowest octave');
+});
 
 (test: any).each(['B#', 'E#'])('%p is not a thing', scientific => {
   expect(() => Note.fromScientific(scientific)).toThrowError(
@@ -16,24 +25,25 @@ import {Note, scientificToMidi, midiToScientific} from './tension.js';
 });
 
 const testNotes = [
-  ['A-5', 9],
-  ['A-4', 21],
-  ['A#-4', 22],
-  ['C-2', 36],
-  ['c-5', 0],
-  ['g5', 127],
-  ['c0', 60],
-  ['c#0', 61],
-  ['d0', 62],
-  ['d#0', 63],
-  ['e0', 64],
-  ['f0', 65],
-  ['f#0', 66],
-  ['g0', 67],
-  ['g#0', 68],
-  ['a0', 69],
-  ['a#0', 70],
-  ['b0', 71],
+  ['c-1', 0],
+  ['A-1', 9],
+  ['A0', 21],
+  ['A#0', 22],
+  ['C2', 36],
+  ['c-1', 0],
+  ['g9', 127],
+  ['c4', 60],
+  ['c#4', 61],
+  ['d4', 62],
+  ['d#4', 63],
+  ['e4', 64],
+  ['f4', 65],
+  ['f#4', 66],
+  ['g4', 67],
+  ['g#4', 68],
+  ['a4', 69],
+  ['a#4', 70],
+  ['b4', 71],
 ];
 
 (test: any).each(testNotes)('midi for %p is %p', (scientific, midi) => {
@@ -42,4 +52,16 @@ const testNotes = [
 
 (test: any).each(testNotes)('scientific for %p is %p', (scientific, midi) => {
   expect(midiToScientific(midi)).toBe(scientific.toUpperCase());
+});
+
+(test: any).each([
+  ['c-1', 8.175],
+  ['a-1', 13.75],
+  ['c-1', 8.1757989156],
+  ['a4', 440.0],
+  ['g9', 12543.853951416],
+  ['a3', 220.0],
+  ['a2', 110.0],
+])('%p is %pHz', (scientific, freq) => {
+  expect(midiToFreq(scientificToMidi(scientific))).toBeCloseTo(freq);
 });

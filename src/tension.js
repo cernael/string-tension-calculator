@@ -7,9 +7,9 @@ const tension = (unitWeight: number, scale: number, freq: number): number => {
 };
 
 export class Note {
-  midi: number;
+  _midi: number;
   constructor(midi: number) {
-    this.midi = midi;
+    this._midi = midi;
   }
 
   static fromMidi(midi: number) {
@@ -19,6 +19,18 @@ export class Note {
   static fromScientific(scientific: string) {
     const midi = scientificToMidi(scientific);
     return Note.fromMidi(midi);
+  }
+
+  freq() {
+    return midiToFreq(this._midi);
+  }
+
+  scientific() {
+    return midiToScientific(this._midi);
+  }
+
+  midi() {
+    return this._midi;
   }
 }
 
@@ -35,9 +47,9 @@ const SCIENTIFIC = {
 const MIDI = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
 
 // 0 midi is A-5
-const FIRST_OCTAVE = -5;
+const FIRST_OCTAVE = -1;
 
-const SCIENTIFIC_REGEXP = /^([ABCDEFG])(\#?)(\-?\d?)$/i;
+const SCIENTIFIC_REGEXP = /^([ABCDEFG])(\#?)(\-?\d*)$/i;
 export const scientificToMidi = (scientific: string): number => {
   const match = scientific.match(SCIENTIFIC_REGEXP);
   if (!match) {
@@ -51,6 +63,9 @@ export const scientificToMidi = (scientific: string): number => {
   const letter = match[1].toLowerCase();
   const sharp = !!match[2];
   const octave = parseInt(match[3], 10);
+  if (octave < -1) {
+    throw new Error('-1 is the lowest octave available');
+  }
   if (['b', 'e'].includes(letter) && sharp === true) {
     throw new Error(`B and E don't have sharps. got: ${scientific}`);
   }
@@ -65,5 +80,20 @@ export const scientificToMidi = (scientific: string): number => {
 export const midiToScientific = (midi: number) => {
   const octave = Math.floor(midi / 12);
   const baseMidi = midi % 12;
-  return `${MIDI[baseMidi].toUpperCase()}${octave + FIRST_OCTAVE}`;
+  const baseNote = MIDI[baseMidi];
+  if (!baseNote) {
+    throw new Error(
+      `can't find the base note baseMidi: ${baseMidi}, base notes: ${JSON.stringify(
+        MIDI,
+      )}, midi: ${midi}`,
+    );
+  }
+  return `${baseNote.toUpperCase()}${octave + FIRST_OCTAVE}`;
+};
+
+const C0_FREQ = 8.1757989156;
+const NOTE_TO_FREQ_CONST = Math.pow(2, 1 / 12);
+
+export const midiToFreq = (midi: number) => {
+  return C0_FREQ * Math.pow(NOTE_TO_FREQ_CONST, midi);
 };
