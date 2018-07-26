@@ -142,6 +142,5 @@ export const getTightnessColor = ({
   const color =
     direction === HEAVY ? Color.rgb(255, 0, 0) : Color.rgb(255, 255, 0);
   const intensity = 1 - Math.min(howMuch / 500, 1); // 0 to 1
-  console.log({intensity});
   return color.lighten(intensity).string();
 };
