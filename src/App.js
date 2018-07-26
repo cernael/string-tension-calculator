@@ -191,61 +191,61 @@ class StringRow extends Component<StringRowProps> {
       <tr>
         <td>
           {scientific}
-          <div className="btn-group-vertical ml-5">
-            {' '}
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={this.props.dispatch.bind(null, {
-                type: 'increment_note_at_index',
-                index: this.props.index,
-              })}
-            >
-              ^
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={this.props.dispatch.bind(null, {
-                type: 'decrement_note_at_index',
-                index: this.props.index,
-              })}
-            >
-              v
-            </button>
-          </div>
+          <AdjustButtons
+            onUp={this.props.dispatch.bind(null, {
+              type: 'increment_note_at_index',
+              index: this.props.index,
+            })}
+            onDown={this.props.dispatch.bind(null, {
+              type: 'decrement_note_at_index',
+              index: this.props.index,
+            })}
+          />
         </td>
+
         <td>
-          {this.props.string.physicalString.gauge}{' '}
-          <div className="btn-group-vertical ml-5">
-            {' '}
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={this.props.dispatch.bind(null, {
-                type: 'increment_gauge_at_index',
-                index: this.props.index,
-              })}
-            >
-              ^
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={this.props.dispatch.bind(null, {
-                type: 'decrement_gauge_at_index',
-                index: this.props.index,
-              })}
-            >
-              v
-            </button>
-          </div>
+          {this.props.string.physicalString.gauge}
+          <AdjustButtons
+            onUp={this.props.dispatch.bind(null, {
+              type: 'increment_gauge_at_index',
+              index: this.props.index,
+            })}
+            onDown={this.props.dispatch.bind(null, {
+              type: 'decrement_gauge_at_index',
+              index: this.props.index,
+            })}
+          />
         </td>
+
         <td style={{backgroundColor: getTightnessColor({tension, scale})}}>
           {tension}
         </td>
         <td>{this.props.string.note.freq()}</td>
       </tr>
+    );
+  }
+}
+
+class AdjustButtons extends Component<{onUp: () => void, onDown: () => void}> {
+  render() {
+    return (
+      <div className="btn-group-vertical ml-5">
+        {' '}
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={this.props.onUp}
+        >
+          ^
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={this.props.onDown}
+        >
+          v
+        </button>
+      </div>
     );
   }
 }
