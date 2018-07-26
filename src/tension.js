@@ -1,8 +1,18 @@
 // @flow
 
+import Color from 'color';
+
 const TENSION_CONST = 386.4;
 
-const tension = (unitWeight: number, scale: number, freq: number): number => {
+export const getTension = ({
+  unitWeight,
+  scale,
+  freq,
+}: {
+  unitWeight: number,
+  scale: number,
+  freq: number,
+}): number => {
   return (unitWeight * Math.pow(2 * scale * freq, 2)) / TENSION_CONST;
 };
 
@@ -96,4 +106,42 @@ const NOTE_TO_FREQ_CONST = Math.pow(2, 1 / 12);
 
 export const midiToFreq = (midi: number) => {
   return C0_FREQ * Math.pow(NOTE_TO_FREQ_CONST, midi);
+};
+
+const LIGHT = 'LIGHT';
+const HEAVY = 'HEAVY';
+
+export const howTight = ({
+  tension,
+  scale,
+}: {
+  tension: number,
+  scale: number,
+}) => {
+  switch (true) {
+    case scale > 25 && scale < 26: {
+      const MEDIUM = 18;
+      const margin = 2;
+      const direction = tension >= MEDIUM ? HEAVY : LIGHT;
+      const howMuch = Math.abs((tension - MEDIUM) / (margin / 100));
+      return {direction, howMuch};
+    }
+    default:
+      throw new Error(`can't calculate tension for this scale: ${scale}`);
+  }
+};
+
+export const getTightnessColor = ({
+  tension,
+  scale,
+}: {
+  tension: number,
+  scale: number,
+}) => {
+  const {direction, howMuch} = howTight({tension, scale});
+  const color =
+    direction === HEAVY ? Color.rgb(255, 0, 0) : Color.rgb(255, 255, 0);
+  const intensity = 1 - Math.min(howMuch / 500, 1); // 0 to 1
+  console.log({intensity});
+  return color.lighten(intensity).string();
 };

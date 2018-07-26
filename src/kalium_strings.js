@@ -2,7 +2,9 @@
 type Gauge = number;
 type UnitWeight = number;
 
-export const data: Array<[Gauge, UnitWeight]> = [
+export type PhysicalString = {gauge: Gauge, unitWeight: UnitWeight};
+
+export const data: Array<PhysicalString> = [
   [0.008, 0.00001424014582],
   [0.0085, 0.00001607510288],
   [0.009, 0.00001802191465],
@@ -84,4 +86,24 @@ export const data: Array<[Gauge, UnitWeight]> = [
   [0.244, 0.01090718241],
   [0.254, 0.01178731958],
   [0.266, 0.01289757747],
-];
+].map(s => ({gauge: s[0], unitWeight: s[1]}));
+
+export const findByGauge = (gauge: Gauge): PhysicalString => {
+  const string = data.find(string => string.gauge === gauge);
+  if (!string) {
+    throw new Error(`could not find a string with the gauge: %{gauge}`);
+  }
+  return string;
+};
+
+export const findNext = (gauge: Gauge): ?PhysicalString => {
+  return data.find(string => string.gauge > gauge);
+};
+
+export const findPrevious = (gauge: Gauge): ?PhysicalString => {
+  for (let i = data.length - 1; i >= 0; i--) {
+    if (data[i] && data[i].gauge < gauge) {
+      return data[i];
+    }
+  }
+};

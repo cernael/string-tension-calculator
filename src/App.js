@@ -1,19 +1,20 @@
 // @flow
 
+import type {PhysicalString} from './kalium_strings';
 import React, {Component} from 'react';
 import './App.css';
-import {Note} from './tension';
+import {Note, getTension, getTightnessColor} from './tension';
 import {createStore} from 'redux';
 import {connect, Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
+import {findByGauge, findNext, findPrevious} from './kalium_strings';
 
-type State = {|
-  strings: StringsState,
-|};
+const HARDCODED_SCALE = 25.5;
 
 type String = {
   note: Note,
+  physicalString: PhysicalString,
 };
 
 type Action =
@@ -24,18 +25,26 @@ type Action =
   | {|
       type: 'decrement_note_at_index',
       index: number,
+    |}
+  | {|
+      type: 'increment_gauge_at_index',
+      index: number,
+    |}
+  | {|
+      type: 'decrement_gauge_at_index',
+      index: number,
     |};
 
 class StringsState {
   _strings: Array<String>;
   constructor(strings) {
     this._strings = strings || [
-      {note: Note.fromScientific('e4')},
-      {note: Note.fromScientific('b3')},
-      {note: Note.fromScientific('g3')},
-      {note: Note.fromScientific('d3')},
-      {note: Note.fromScientific('a2')},
-      {note: Note.fromScientific('e2')},
+      {note: Note.fromScientific('e4'), physicalString: findByGauge(0.009)},
+      {note: Note.fromScientific('b3'), physicalString: findByGauge(0.013)},
+      {note: Note.fromScientific('g3'), physicalString: findByGauge(0.017)},
+      {note: Note.fromScientific('d3'), physicalString: findByGauge(0.024)},
+      {note: Note.fromScientific('a2'), physicalString: findByGauge(0.033)},
+      {note: Note.fromScientific('e2'), physicalString: findByGauge(0.045)},
     ];
   }
 
@@ -78,7 +87,24 @@ class StringsState {
     string.note = Note.fromMidi(string.note.midi() - 1);
     return this.setString(index, string);
   }
+  incrementGaugeForStringAtIndex(index: number): StringsState {
+    const string = this.getString(index);
+    const physicalString = findNext(string.physicalString.gauge);
+    return physicalString
+      ? this.setString(index, {...string, physicalString})
+      : this;
+  }
+  decrementGaugeForStringAtIndex(index: number): StringsState {
+    const string = this.getString(index);
+    const physicalString = findPrevious(string.physicalString.gauge);
+    return physicalString
+      ? this.setString(index, {...string, physicalString})
+      : this;
+  }
 }
+type State = {
+  strings: StringsState,
+};
 
 const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
@@ -94,6 +120,16 @@ const reducer = (state: State | void, action: Action): State => {
       return {
         ...state,
         strings: state.strings.decrementNoteForStringAtIndex(action.index),
+      };
+    case 'increment_gauge_at_index':
+      return {
+        ...state,
+        strings: state.strings.incrementGaugeForStringAtIndex(action.index),
+      };
+    case 'decrement_gauge_at_index':
+      return {
+        ...state,
+        strings: state.strings.decrementGaugeForStringAtIndex(action.index),
       };
     default:
       return state;
@@ -114,6 +150,8 @@ class Main extends Component<{strings: StringsState}> {
               <thead className="thead-dark">
                 <tr>
                   <th>Note</th>
+                  <th>Gauge</th>
+                  <th>Tension</th>
                   <th>Frequency</th>
                 </tr>
               </thead>
@@ -121,11 +159,7 @@ class Main extends Component<{strings: StringsState}> {
                 {this.props.strings
                   .getStrings()
                   .map((s, index) => (
-                    <StringRowContainer
-                      index={index}
-                      note={s.note}
-                      key={index}
-                    />
+                    <StringRowContainer index={index} string={s} key={index} />
                   ))}
               </tbody>
             </table>
@@ -137,17 +171,26 @@ class Main extends Component<{strings: StringsState}> {
 }
 
 type StringRowProps = {
-  note: Note,
+  string: String,
   index: number,
   dispatch: Action => void,
 };
 
 class StringRow extends Component<StringRowProps> {
   render() {
+    const scientific = this.props.string.note.scientific();
+    const scale = HARDCODED_SCALE;
+    const freq = this.props.string.note.freq();
+    const unitWeight = this.props.string.physicalString.unitWeight;
+    const tension = getTension({
+      scale,
+      freq,
+      unitWeight,
+    });
     return (
       <tr>
         <td>
-          {this.props.note.scientific()}
+          {scientific}
           <div className="btn-group-vertical ml-5">
             {' '}
             <button
@@ -172,7 +215,36 @@ class StringRow extends Component<StringRowProps> {
             </button>
           </div>
         </td>
-        <td>{this.props.note.freq()}</td>
+        <td>
+          {this.props.string.physicalString.gauge}{' '}
+          <div className="btn-group-vertical ml-5">
+            {' '}
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={this.props.dispatch.bind(null, {
+                type: 'increment_gauge_at_index',
+                index: this.props.index,
+              })}
+            >
+              ^
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={this.props.dispatch.bind(null, {
+                type: 'decrement_gauge_at_index',
+                index: this.props.index,
+              })}
+            >
+              v
+            </button>
+          </div>
+        </td>
+        <td style={{backgroundColor: getTightnessColor({tension, scale})}}>
+          {tension}
+        </td>
+        <td>{this.props.string.note.freq()}</td>
       </tr>
     );
   }
