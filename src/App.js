@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import {findByGauge, findNext, findPrevious} from './kalium_strings';
 
-const HARDCODED_SCALE = 25.5;
+const HARDCODED_SCALE = 26.5;
 
 type String = {
   note: Note,
@@ -142,7 +142,9 @@ class Main extends Component<{strings: StringsState}> {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">string tension calculator</h1>
+          <h1 className="App-title">
+            string tension calculator. Scale length: 26.5
+          </h1>
         </header>
         <div className="container">
           <div className="row justify-content-md-center">

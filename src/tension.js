@@ -119,7 +119,7 @@ export const howTight = ({
   scale: number,
 }) => {
   switch (true) {
-    case scale > 25 && scale < 26: {
+    case scale > 25 && scale <= 26.5: {
       const MEDIUM = 18;
       const margin = 2;
       const direction = tension >= MEDIUM ? HEAVY : LIGHT;
