@@ -1,6 +1,5 @@
 // @flow
 
-import type {PhysicalString} from './kalium_strings';
 import type {Instrument} from './tension';
 import type {String} from './default_string_sets';
 
@@ -12,9 +11,7 @@ import {connect, Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import {findNext, findPrevious} from './kalium_strings';
-import {forInstrument, GUITAR} from './default_string_sets';
-
-const HARDCODED_SCALE = 26.5;
+import {forInstrument, BASS} from './default_string_sets';
 
 type Action =
   | {|
@@ -65,7 +62,7 @@ class StringsState {
   }
 
   setString(index: number, string: String): StringsState {
-    if (index != 0 && !this._strings[index - 1]) {
+    if (index !== 0 && !this._strings[index - 1]) {
       throw new Error(
         `can't set sparse strings. string index given: ${index}, strings: ${JSON.stringify(this._strings)}`,
       );
@@ -114,7 +111,7 @@ type State = {
 
 const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
-    return {strings: new StringsState(GUITAR), cache: {}, instrument: 'guitar'};
+    return {strings: new StringsState(BASS), cache: {}, instrument: 'bass'};
   }
 
   switch (action.type) {
@@ -200,7 +197,7 @@ class Main extends Component<State & {dispatch: Function}> {
   }
 }
 
-type StringRowProps = {
+type StringRowProps = State & {
   string: String,
   index: number,
   dispatch: Action => void,
@@ -209,7 +206,7 @@ type StringRowProps = {
 class StringRow extends Component<StringRowProps> {
   render() {
     const scientific = this.props.string.note.scientific();
-    const scale = HARDCODED_SCALE;
+    const scale = this.props.string.scale;
     const freq = this.props.string.note.freq();
     const unitWeight = this.props.string.physicalString.unitWeight;
     const tension = getTension({
@@ -260,7 +257,9 @@ class StringRow extends Component<StringRowProps> {
           />
         </td>
 
-        <td style={{backgroundColor: getTightnessColor({tension, scale})}}>{tension}</td>
+        <td style={{backgroundColor: getTightnessColor({tension, scale, instrument: this.props.instrument})}}>
+          {tension}
+        </td>
         <td>{this.props.string.note.freq()}</td>
       </tr>
     );

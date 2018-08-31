@@ -43,27 +43,27 @@ export const GUITAR: Array<String> = [
 export const BASS: Array<String> = [
   {
     note: Note.fromScientific('g2'),
-    physicalString: findByGauge(0.009),
+    physicalString: findByGauge(0.051),
     scale: 34,
   },
   {
     note: Note.fromScientific('d2'),
-    physicalString: findByGauge(0.013),
+    physicalString: findByGauge(0.07),
     scale: 34.75,
   },
   {
     note: Note.fromScientific('a1'),
-    physicalString: findByGauge(0.017),
+    physicalString: findByGauge(0.086),
     scale: 35.5,
   },
   {
     note: Note.fromScientific('e1'),
-    physicalString: findByGauge(0.024),
+    physicalString: findByGauge(0.106),
     scale: 36.25,
   },
   {
-    note: Note.fromScientific('b0'),
-    physicalString: findByGauge(0.033),
+    note: Note.fromScientific('a0'),
+    physicalString: findByGauge(0.136),
     scale: 37,
   },
 ];

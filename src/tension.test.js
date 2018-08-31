@@ -1,30 +1,18 @@
 // @flow
 
-import {
-  Note,
-  scientificToMidi,
-  midiToScientific,
-  midiToFreq,
-  getTension,
-  howTight,
-} from './tension.js';
+import {Note, scientificToMidi, midiToScientific, midiToFreq, getTension, howTight} from './tension.js';
 import {findByGauge} from './kalium_strings.js';
 
-(test: any).each(['lol', 'Ab', 'A#11t', 'A1?1'])(
-  'from scientific blows up with %p',
-  scientific => {
-    expect(() => Note.fromScientific(scientific)).toThrowError('scientific');
-  },
-);
+(test: any).each(['lol', 'Ab', 'A#11t', 'A1?1'])('from scientific blows up with %p', scientific => {
+  expect(() => Note.fromScientific(scientific)).toThrowError('scientific');
+});
 
 (test: any).each(['c-2', 'a-10', 'b-3'])('%p is too low', scientific => {
   expect(() => Note.fromScientific(scientific)).toThrowError('lowest octave');
 });
 
 (test: any).each(['B#', 'E#'])('%p is not a thing', scientific => {
-  expect(() => Note.fromScientific(scientific)).toThrowError(
-    /don't have sharp/,
-  );
+  expect(() => Note.fromScientific(scientific)).toThrowError(/don't have sharp/);
 });
 
 const testNotes = [
@@ -69,35 +57,47 @@ const testNotes = [
   expect(midiToFreq(scientificToMidi(scientific))).toBeCloseTo(freq);
 });
 
-(test: any).each([
-  ['e4', 25.5, 0.009, 13.18],
-  ['e4', 25.5, 0.01, 16.28],
-  ['e4', 25.5, 0.011, 19.69],
-])(
+(test: any).each([['e4', 25.5, 0.009, 13.18], ['e4', 25.5, 0.01, 16.28], ['e4', 25.5, 0.011, 19.69]])(
   '%p on %p scale with %p gauge has tension close to %p lbs',
   (scientific, scale, gauge, expectedTension) => {
     const note = Note.fromScientific(scientific);
     const freq = note.freq();
     const {unitWeight} = findByGauge(gauge);
-    expect(getTension({freq, scale, unitWeight})).toBeCloseTo(
-      expectedTension,
-      1,
-    );
+    expect(getTension({freq, scale, unitWeight})).toBeCloseTo(expectedTension, 1);
   },
 );
 
 (test: any).each([
-  [14, 25.5, 'LIGHT', 200],
-  [16, 25.5, 'LIGHT', 100],
-  [18, 25.5, 'HEAVY', 0],
-  [20, 25.5, 'HEAVY', 100],
-  [22, 25.5, 'HEAVY', 200],
-])(
-  '%p lbs tension on %p scale is %p by %p points',
-  (tension, scale, direction, howMuch) => {
-    expect(howTight({tension, scale})).toMatchObject({
-      direction,
-      howMuch,
-    });
-  },
-);
+  ['guitar', 14, 25.5, 'LIGHT', 200],
+  ['guitar', 16, 25.5, 'LIGHT', 100],
+  ['guitar', 18, 25.5, 'HEAVY', 0],
+  ['guitar', 20, 25.5, 'HEAVY', 100],
+  ['guitar', 22, 25.5, 'HEAVY', 200],
+  ['guitar', 22, 26.9, 'HEAVY', 200],
+  ['guitar', 22, 28.9, 'LIGHT', 33.3],
+  ['guitar', 33, 30, 'HEAVY', 100],
+  ['guitar', 35, 30, 'HEAVY', 150],
+  ['guitar', 25, 30, 'LIGHT', 100],
+  ['guitar', 29, 30, 'HEAVY', 0],
+  ['bass', 25, 30, 'LIGHT', 100],
+  ['bass', 29, 30, 'HEAVY', 0],
+  ['bass', 33, 30, 'HEAVY', 100],
+  ['bass', 32, 34.5, 'LIGHT', 100],
+  ['bass', 40, 34.5, 'HEAVY', 0],
+  ['bass', 48, 34.5, 'HEAVY', 100],
+  ['bass', 33, 36.5, 'LIGHT', 100],
+  ['bass', 41, 36.5, 'HEAVY', 0],
+  ['bass', 49, 36.5, 'HEAVY', 100],
+  ['bass', 33, 37, 'LIGHT', 100],
+  ['bass', 41, 37, 'HEAVY', 0],
+  ['bass', 49, 37, 'HEAVY', 100],
+  ['bass', 34, 39.5, 'LIGHT', 100],
+  ['bass', 42, 39.5, 'HEAVY', 0],
+  ['bass', 50, 39.5, 'HEAVY', 100],
+])('%p: %p lbs tension on %p scale is %p by %p points', (instrument, tension, scale, direction, howMuch) => {
+  const result = howTight({tension, scale, instrument});
+  expect(result).toMatchObject({
+    direction,
+  });
+  expect(howMuch).toBeCloseTo(result.howMuch, 1);
+});
