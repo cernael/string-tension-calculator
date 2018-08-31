@@ -11,7 +11,7 @@ import {connect, Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import {findNext, findPrevious} from './kalium_strings';
-import {forInstrument, BASS} from './default_string_sets';
+import {forInstrument, GUITAR} from './default_string_sets';
 
 type Action =
   | {|
@@ -111,7 +111,7 @@ type State = {
 
 const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
-    return {strings: new StringsState(BASS), cache: {}, instrument: 'bass'};
+    return {strings: new StringsState(GUITAR), cache: {}, instrument: 'guitar'};
   }
 
   switch (action.type) {
@@ -190,6 +190,19 @@ class Main extends Component<State & {dispatch: Function}> {
                 ))}
               </tbody>
             </table>
+            <p className="mt-4">
+              Disclaimer: i don't have a good formula for calculating whether the tension is "light" or "heavy" for a
+              specific instrument/scale. I took current numbers from here https://www.youtube.com/watch?v=ZxiaiA8ejqs,
+              but they don't seem to be right.
+            </p>
+            <a
+              href="https://twitter.com/aarondjents"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="badge badge-light mt-5"
+            >
+              @aarondjents
+            </a>
           </div>
         </div>
       </div>
