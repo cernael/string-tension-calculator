@@ -169,7 +169,7 @@ class Main extends Component<State & {dispatch: Function}> {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">string tension calculator. Scale length: 26.5</h1>
+          <h1 className="App-title">String tension calculator.</h1>
         </header>
         <div className="container">
           <div className="row justify-content-md-center">
