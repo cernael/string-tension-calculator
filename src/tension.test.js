@@ -99,5 +99,5 @@ const testNotes = [
   expect(result).toMatchObject({
     direction,
   });
-  expect(howMuch).toBeCloseTo(result.howMuch, 1);
+  expect(howMuch).toBeCloseTo((result: any).howMuch, 1);
 });
