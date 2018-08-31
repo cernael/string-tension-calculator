@@ -2,6 +2,8 @@
 
 import Color from 'color';
 
+export type Instrument = 'guitar' | 'bass';
+
 const TENSION_CONST = 386.4;
 
 export const getTension = ({
@@ -114,9 +116,11 @@ const HEAVY = 'HEAVY';
 export const howTight = ({
   tension,
   scale,
+  instrument,
 }: {
   tension: number,
   scale: number,
+  instument: Instrument,
 }) => {
   switch (true) {
     case scale > 25 && scale <= 26.5: {
@@ -134,11 +138,13 @@ export const howTight = ({
 export const getTightnessColor = ({
   tension,
   scale,
+  instrument,
 }: {
   tension: number,
   scale: number,
+  instrument: Instrument,
 }) => {
-  const {direction, howMuch} = howTight({tension, scale});
+  const {direction, howMuch} = howTight({tension, scale, instrument});
   const color =
     direction === HEAVY ? Color.rgb(255, 0, 0) : Color.rgb(255, 255, 0);
   const intensity = 1 - Math.min(howMuch / 500, 1); // 0 to 1
