@@ -96,93 +96,43 @@ export const midiToFreq = (midi: number) => {
   return C0_FREQ * Math.pow(NOTE_TO_FREQ_CONST, midi);
 };
 
-// See description of https://www.youtube.com/watch?v=ZxiaiA8ejqs
-const TIGHTNESS_DATA = {
-  guitar: [
-    {
-      lowerScale: 25,
-      higherScale: 27,
-      mediumTension: 18,
-      margin: 2,
-    },
-    {
-      lowerScale: 27,
-      higherScale: 29,
-      mediumTension: 23,
-      margin: 3,
-    },
-    {
-      lowerScale: 29,
-      higherScale: 31,
-      mediumTension: 29,
-      margin: 4,
-    },
-  ],
-  bass: [
-    {
-      lowerScale: 30,
-      higherScale: 34,
-      mediumTension: 29,
-      margin: 4,
-    },
-    {
-      lowerScale: 34,
-      higherScale: 36,
-      mediumTension: 40,
-      margin: 8,
-    },
-    {
-      lowerScale: 36,
-      higherScale: 38,
-      mediumTension: 41,
-      margin: 8,
-    },
-    {
-      lowerScale: 39,
-      higherScale: 42,
-      mediumTension: 42,
-      margin: 8,
-    },
-  ],
+type Metrics = {
+  [Instrument]: {
+    // lbs that is considered a regular/medium tension for this instrument
+    regularTension: number,
+    // number of lbs that if added or removed would make the tension extra heavy/light.
+    // e.g. if regular tension is 18 and delta is 4, then 22 would be considered extra heavy and
+    // 14 would be considered extra light
+    delta: number,
+  },
+};
+const TENSION_METRICS: Metrics = {
+  guitar: {
+    regularTension: 19,
+    delta: 6,
+  },
+  bass: {
+    regularTension: 40,
+    delta: 10,
+  },
 };
 
 type HowTight = {|direction: 'HEAVY' | 'LIGHT', howMuch: number|} | {|direction: 'UNKNOWN'|};
 
-export const howTight = ({
-  tension,
-  scale,
-  instrument,
-}: {
-  tension: number,
-  scale: number,
-  instrument: Instrument,
-}): HowTight => {
-  const data = TIGHTNESS_DATA[instrument].find(
-    ({lowerScale, higherScale}) => scale >= lowerScale && scale <= higherScale,
-  );
-  if (!data) {
-    return {direction: 'UNKNOWN'};
-  }
-  const direction = tension >= data.mediumTension ? 'HEAVY' : 'LIGHT';
-  const howMuch = Math.abs((tension - data.mediumTension) / (data.margin / 100));
+export const howTight = ({tension, instrument}: {|tension: number, instrument: Instrument|}): HowTight => {
+  const {regularTension, delta} = TENSION_METRICS[instrument];
+  const direction = tension >= regularTension ? 'HEAVY' : 'LIGHT';
+  const howMuch = Math.abs((tension - regularTension) / (delta / 100));
   return {direction, howMuch};
 };
 
-export const getTightnessColor = ({
-  tension,
-  scale,
-  instrument,
-}: {
-  tension: number,
-  scale: number,
-  instrument: Instrument,
-}) => {
-  const result = howTight({tension, scale, instrument});
+export const getTightnessColor = ({tension, instrument}: {|tension: number, instrument: Instrument|}) => {
+  const result = howTight({tension, instrument});
   if (result.direction === 'UNKNOWN') {
     return Color.rgb(200, 200, 200);
   }
   const {direction, howMuch} = result;
   const color = direction === 'HEAVY' ? Color.rgb(255, 0, 0) : Color.rgb(255, 255, 0);
-  const intensity = 1 - Math.min(howMuch / 500, 1); // 0 to 1
+  const intensity = 1 - Math.min(howMuch / 200, 1); // 0 to 1
   return color.lighten(intensity).string();
 };

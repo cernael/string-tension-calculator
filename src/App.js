@@ -13,6 +13,10 @@ import registerServiceWorker from './registerServiceWorker';
 import {findNext, findPrevious} from './kalium_strings';
 import {forInstrument, GUITAR} from './default_string_sets';
 
+const roundTo = (number, digits) => {
+  return Math.floor(number * Math.pow(10, digits)) / Math.pow(10, digits);
+};
+
 type Action =
   | {|
       type: 'increment_note_at_index',
@@ -191,19 +195,26 @@ class Main extends Component<State & {dispatch: Function}> {
               </tbody>
             </table>
             <p className="mt-4">
-              Disclaimer: i don't have a good formula for calculating whether the tension is "light" or "heavy" for a
-              specific instrument/scale. I took current numbers from here https://www.youtube.com/watch?v=ZxiaiA8ejqs,
-              but they don't seem to be right.
+              This tension calculator uses specifications from{' '}
+              <a
+                href="http://store.kaliumstrings.com/TensionCalculator/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Kalium Strings
+              </a>
             </p>
-            <a
-              href="https://twitter.com/aarondjents"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="badge badge-light mt-5"
-            >
-              @aarondjents
-            </a>
           </div>
+        </div>
+        <div className="row justify-content-md-center">
+          <a
+            href="https://twitter.com/aarondjents"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="badge badge-light mt-1"
+          >
+            @aarondjents
+          </a>
         </div>
       </div>
     );
@@ -230,7 +241,7 @@ class StringRow extends Component<StringRowProps> {
     return (
       <tr>
         <td>
-          {this.props.string.scale}
+          <DataBadge value={this.props.string.scale} />
           <AdjustButtons
             onUp={this.props.dispatch.bind(null, {
               type: 'increment_scale_at_index',
@@ -270,10 +281,10 @@ class StringRow extends Component<StringRowProps> {
           />
         </td>
 
-        <td style={{backgroundColor: getTightnessColor({tension, scale, instrument: this.props.instrument})}}>
-          {tension}
+        <td style={{backgroundColor: getTightnessColor({tension, instrument: this.props.instrument})}}>
+          {roundTo(tension, 3)} lbs
         </td>
-        <td>{this.props.string.note.freq()}</td>
+        <td>{roundTo(this.props.string.note.freq(), 3)}</td>
       </tr>
     );
   }
@@ -304,17 +315,17 @@ class InstrumentSelector extends Component<{instrument: Instrument, dispatch: Fu
       <div style={{width: '100%'}} className="mt-3">
         <button
           type="button"
-          className={bassClass}
-          onClick={this.props.dispatch.bind(null, {type: 'select_instrument', instrument: 'bass'})}
-        >
-          Bass
-        </button>
-        <button
-          type="button"
           className={guitarClass}
           onClick={this.props.dispatch.bind(null, {type: 'select_instrument', instrument: 'guitar'})}
         >
           Guitar
+        </button>
+        <button
+          type="button"
+          className={bassClass}
+          onClick={this.props.dispatch.bind(null, {type: 'select_instrument', instrument: 'bass'})}
+        >
+          Bass
         </button>
       </div>
     );
@@ -323,6 +334,12 @@ class InstrumentSelector extends Component<{instrument: Instrument, dispatch: Fu
 
 const StringRowContainer = connect(state => state)(StringRow);
 const App = connect(state => state)(Main);
+
+class DataBadge extends Component<{value: string | number}, void> {
+  render() {
+    return <span style={{width: '50px'}}>{this.props.value}</span>;
+  }
+}
 
 ReactDOM.render(
   <Provider store={store}>

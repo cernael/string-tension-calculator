@@ -68,36 +68,20 @@ const testNotes = [
 );
 
 (test: any).each([
-  ['guitar', 14, 25.5, 'LIGHT', 200],
-  ['guitar', 16, 25.5, 'LIGHT', 100],
-  ['guitar', 18, 25.5, 'HEAVY', 0],
-  ['guitar', 20, 25.5, 'HEAVY', 100],
-  ['guitar', 22, 25.5, 'HEAVY', 200],
-  ['guitar', 22, 26.9, 'HEAVY', 200],
-  ['guitar', 22, 28.9, 'LIGHT', 33.3],
-  ['guitar', 33, 30, 'HEAVY', 100],
-  ['guitar', 35, 30, 'HEAVY', 150],
-  ['guitar', 25, 30, 'LIGHT', 100],
-  ['guitar', 29, 30, 'HEAVY', 0],
-  ['bass', 25, 30, 'LIGHT', 100],
-  ['bass', 29, 30, 'HEAVY', 0],
-  ['bass', 33, 30, 'HEAVY', 100],
-  ['bass', 32, 34.5, 'LIGHT', 100],
-  ['bass', 40, 34.5, 'HEAVY', 0],
-  ['bass', 48, 34.5, 'HEAVY', 100],
-  ['bass', 33, 36.5, 'LIGHT', 100],
-  ['bass', 41, 36.5, 'HEAVY', 0],
-  ['bass', 49, 36.5, 'HEAVY', 100],
-  ['bass', 33, 37, 'LIGHT', 100],
-  ['bass', 41, 37, 'HEAVY', 0],
-  ['bass', 49, 37, 'HEAVY', 100],
-  ['bass', 34, 39.5, 'LIGHT', 100],
-  ['bass', 42, 39.5, 'HEAVY', 0],
-  ['bass', 50, 39.5, 'HEAVY', 100],
-])('%p: %p lbs tension on %p scale is %p by %p points', (instrument, tension, scale, direction, howMuch) => {
-  const result = howTight({tension, scale, instrument});
-  expect(result).toMatchObject({
-    direction,
-  });
-  expect(howMuch).toBeCloseTo((result: any).howMuch, 1);
+  ['guitar', 19, 'HEAVY', 0],
+  ['guitar', 20, 'HEAVY', 16.6],
+  ['guitar', 21, 'HEAVY', 33.3],
+  ['guitar', 25, 'HEAVY', 100],
+  ['guitar', 18, 'LIGHT', 16.6],
+  ['guitar', 15, 'LIGHT', 66.6],
+  ['guitar', 13, 'LIGHT', 100],
+  ['bass', 40, 'HEAVY', 0],
+  ['bass', 45, 'HEAVY', 50],
+  ['bass', 50, 'HEAVY', 100],
+  ['bass', 35, 'LIGHT', 50],
+  ['bass', 30, 'LIGHT', 100],
+])('%p: %p lbs tension is %p by %p points', (instrument, tension, direction, howMuch) => {
+  const result = howTight({tension, instrument});
+  expect(result).toMatchObject({direction});
+  expect(howMuch).toBeCloseTo((result: any).howMuch, 0);
 });
