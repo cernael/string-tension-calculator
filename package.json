@@ -54,7 +54,7 @@
     "build": "node scripts/build.js",
     "test-ci": "jest --ci",
     "test": "jest",
-    "lint": "eslint .",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "babel-jest": "^23.4.0",
