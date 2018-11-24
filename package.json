@@ -19,7 +19,7 @@
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
-    "eslint-plugin-flowtype": "2.39.1",
+    "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
@@ -52,8 +52,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
-    "test-ci": "jest --ci"
+    "test-ci": "jest --ci",
+    "test": "jest",
+    "lint": "eslint .",
   },
   "devDependencies": {
     "babel-jest": "^23.4.0",
@@ -97,8 +98,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }

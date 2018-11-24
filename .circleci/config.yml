@@ -10,6 +10,7 @@ jobs:
       - run: yarn build
       - run: yarn flow
       - run: yarn test-ci
+      - run: yarn lint
 
 workflows:
   version: 2

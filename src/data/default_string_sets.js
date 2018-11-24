@@ -1,6 +1,8 @@
+// @flow
+
 import {Note} from './Note.js';
 import {findByGauge} from './kalium_strings';
-import type {String} from './types.js';
+import type {String} from '../types.js';
 
 export const GUITAR: Array<String> = [
   {
