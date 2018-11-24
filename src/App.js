@@ -1,17 +1,16 @@
 // @flow
 
-import type {Instrument, Action, State, String} from './types';
+import type {State} from './types';
 
 import React, {Component} from 'react';
 import './App.css';
-import {getTension, getTightnessColor} from './data/tension';
 import {createStore} from 'redux';
 import {connect, Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import {reducer} from './data/reducer.js';
 import {InstrumentSelector} from './ui/InstrumentSelector.js';
-import {StringRow} from './ui/StringRow.js';
+import {CalculatorTable} from './ui/CalculatorTable.js';
 
 const store = createStore(reducer);
 
@@ -25,22 +24,7 @@ class Main extends Component<State & {dispatch: Function}> {
         <div className="container">
           <div className="row justify-content-md-center">
             <InstrumentSelector instrument={this.props.instrument} dispatch={this.props.dispatch} />
-            <table className="table table-bordered mt-3">
-              <thead className="thead-dark">
-                <tr>
-                  <th>Scale</th>
-                  <th>Note</th>
-                  <th>Gauge</th>
-                  <th>Tension</th>
-                  <th>Frequency</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.strings.getStrings().map((s, index) => (
-                  <StringRowContainer index={index} string={s} key={index} />
-                ))}
-              </tbody>
-            </table>
+            <CalculatorTable strings={this.props.strings} />
             <p className="mt-4">
               This tension calculator uses specifications from{' '}
               <a
@@ -68,7 +52,6 @@ class Main extends Component<State & {dispatch: Function}> {
   }
 }
 
-const StringRowContainer = connect(state => state)(StringRow);
 const App = connect(state => state)(Main);
 
 ReactDOM.render(

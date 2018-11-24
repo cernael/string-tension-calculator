@@ -7,6 +7,7 @@ import {DataBadge} from './DataBadge.js';
 import {getTension, getTightnessColor} from '../data/tension.js';
 import {roundTo} from '../data/utils.js';
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 type StringRowProps = State & {
   string: String,
@@ -14,7 +15,7 @@ type StringRowProps = State & {
   dispatch: Action => void,
 };
 
-export class StringRow extends Component<StringRowProps> {
+class StringRowComponent extends Component<StringRowProps> {
   render() {
     const scientific = this.props.string.note.scientific();
     const scale = this.props.string.scale;
@@ -76,3 +77,5 @@ export class StringRow extends Component<StringRowProps> {
     );
   }
 }
+
+export const StringRow = connect(state => state)(StringRowComponent);
