@@ -39,29 +39,47 @@ export class StringsState {
     string.note = Note.fromMidi(string.note.midi() + 1);
     return this.setString(index, string);
   }
+  incrementNoteAll(): StringsState {
+    return this._strings.reduce((result, strings, index) => result.incrementNoteForStringAtIndex(index), this);
+  }
   decrementNoteForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
     string.note = Note.fromMidi(string.note.midi() - 1);
     return this.setString(index, string);
+  }
+  decrementNoteAll(): StringsState {
+    return this._strings.reduce((result, strings, index) => result.decrementNoteForStringAtIndex(index), this);
   }
   incrementGaugeForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
     const physicalString = findNext(string.physicalString.gauge);
     return physicalString ? this.setString(index, {...string, physicalString}) : this;
   }
+  incrementGaugeAll(): StringsState {
+    return this._strings.reduce((result, strings, index) => result.incrementGaugeForStringAtIndex(index), this);
+  }
   decrementGaugeForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
     const physicalString = findPrevious(string.physicalString.gauge);
     return physicalString ? this.setString(index, {...string, physicalString}) : this;
+  }
+  decrementGaugeAll(): StringsState {
+    return this._strings.reduce((result, strings, index) => result.decrementGaugeForStringAtIndex(index), this);
   }
   incrementScaleForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
     string.scale = string.scale + 0.25;
     return this.setString(index, string);
   }
+  incrementScaleAll(): StringsState {
+    return this._strings.reduce((result, strings, index) => result.incrementScaleForStringAtIndex(index), this);
+  }
   decrementScaleForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
     string.scale = string.scale - 0.25;
     return this.setString(index, string);
+  }
+  decrementScaleAll(): StringsState {
+    return this._strings.reduce((result, strings, index) => result.decrementScaleForStringAtIndex(index), this);
   }
 }

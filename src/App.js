@@ -4,15 +4,12 @@ import type {State} from './types';
 
 import React, {Component} from 'react';
 import './App.css';
-import {createStore} from 'redux';
 import {connect, Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import {reducer} from './data/reducer.js';
 import {InstrumentSelector} from './ui/InstrumentSelector.js';
 import {CalculatorTable} from './ui/CalculatorTable.js';
-
-const store = createStore(reducer);
+import {store} from './data/store.js';
 
 class Main extends Component<State & {dispatch: Function}> {
   render() {
@@ -23,7 +20,7 @@ class Main extends Component<State & {dispatch: Function}> {
         </header>
         <div className="container">
           <div className="row justify-content-md-center">
-            <InstrumentSelector instrument={this.props.instrument} dispatch={this.props.dispatch} />
+            <InstrumentSelector instrument={this.props.instrument} />
             <CalculatorTable strings={this.props.strings} />
             <p className="mt-4">
               This tension calculator uses specifications from{' '}
@@ -42,7 +39,7 @@ class Main extends Component<State & {dispatch: Function}> {
             href="https://twitter.com/aarondjents"
             target="_blank"
             rel="noopener noreferrer"
-            class="badge badge-light mt-1"
+            className="badge badge-light mt-1"
           >
             @aarondjents
           </a>

@@ -2,8 +2,9 @@
 
 import type {Instrument} from '../types.js';
 import React, {Component} from 'react';
+import {dispatch} from '../data/store.js';
 
-export class InstrumentSelector extends Component<{instrument: Instrument, dispatch: Function}, any> {
+export class InstrumentSelector extends Component<{instrument: Instrument}, any> {
   render() {
     const baseClass = 'btn btn-lg btn-block ';
     const bassClass = baseClass + (this.props.instrument === 'bass' ? 'btn-primary' : 'btn-secondary');
@@ -13,14 +14,14 @@ export class InstrumentSelector extends Component<{instrument: Instrument, dispa
         <button
           type="button"
           className={guitarClass}
-          onClick={this.props.dispatch.bind(null, {type: 'select_instrument', instrument: 'guitar'})}
+          onClick={dispatch.bind(null, {type: 'select_instrument', instrument: 'guitar'})}
         >
           Guitar
         </button>
         <button
           type="button"
           className={bassClass}
-          onClick={this.props.dispatch.bind(null, {type: 'select_instrument', instrument: 'bass'})}
+          onClick={dispatch.bind(null, {type: 'select_instrument', instrument: 'bass'})}
         >
           Bass
         </button>

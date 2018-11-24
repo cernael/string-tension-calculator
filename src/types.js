@@ -20,24 +20,42 @@ export type Action =
       index: number,
     |}
   | {|
+      type: 'increment_note_all',
+    |}
+  | {|
       type: 'decrement_note_at_index',
       index: number,
+    |}
+  | {|
+      type: 'decrement_note_all',
     |}
   | {|
       type: 'increment_gauge_at_index',
       index: number,
     |}
   | {|
+      type: 'increment_gauge_all',
+    |}
+  | {|
       type: 'decrement_gauge_at_index',
       index: number,
+    |}
+  | {|
+      type: 'decrement_gauge_all',
     |}
   | {|
       type: 'increment_scale_at_index',
       index: number,
     |}
   | {|
+      type: 'increment_scale_all',
+    |}
+  | {|
       type: 'decrement_scale_at_index',
       index: number,
+    |}
+  | {|
+      type: 'decrement_scale_all',
     |}
   | {|
       type: 'select_instrument',
