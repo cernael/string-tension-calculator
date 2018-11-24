@@ -1,171 +1,20 @@
 // @flow
 
-import type {Instrument} from './tension';
-import type {String} from './default_string_sets';
+import type {Instrument, Action, State, String} from './types';
 
 import React, {Component} from 'react';
 import './App.css';
-import {Note, getTension, getTightnessColor} from './tension';
+import {getTension, getTightnessColor} from './data/tension';
 import {createStore} from 'redux';
 import {connect, Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import {findNext, findPrevious} from './kalium_strings';
-import {forInstrument, GUITAR} from './default_string_sets';
+import {reducer} from './data/reducer.js';
 
 const roundTo = (number, digits) => {
   return Math.floor(number * Math.pow(10, digits)) / Math.pow(10, digits);
 };
 
-type Action =
-  | {|
-      type: 'increment_note_at_index',
-      index: number,
-    |}
-  | {|
-      type: 'decrement_note_at_index',
-      index: number,
-    |}
-  | {|
-      type: 'increment_gauge_at_index',
-      index: number,
-    |}
-  | {|
-      type: 'decrement_gauge_at_index',
-      index: number,
-    |}
-  | {|
-      type: 'increment_scale_at_index',
-      index: number,
-    |}
-  | {|
-      type: 'decrement_scale_at_index',
-      index: number,
-    |}
-  | {|
-      type: 'select_instrument',
-      instrument: Instrument,
-    |};
-
-class StringsState {
-  _strings: Array<String>;
-  constructor(strings: Array<String>) {
-    this._strings = strings;
-  }
-
-  getStrings() {
-    return this._strings;
-  }
-
-  getString(index: number) {
-    const string = this._strings[index];
-    if (!string) {
-      throw new Error(`there's no string with index ${index}, strings: ${JSON.stringify(this._strings)}`);
-    }
-    return string;
-  }
-
-  setString(index: number, string: String): StringsState {
-    if (index !== 0 && !this._strings[index - 1]) {
-      throw new Error(
-        `can't set sparse strings. string index given: ${index}, strings: ${JSON.stringify(this._strings)}`,
-      );
-    }
-    const strings = [...this._strings];
-    strings[index] = string;
-    return new StringsState(strings);
-  }
-
-  incrementNoteForStringAtIndex(index: number): StringsState {
-    const string = this.getString(index);
-    string.note = Note.fromMidi(string.note.midi() + 1);
-    return this.setString(index, string);
-  }
-  decrementNoteForStringAtIndex(index: number): StringsState {
-    const string = this.getString(index);
-    string.note = Note.fromMidi(string.note.midi() - 1);
-    return this.setString(index, string);
-  }
-  incrementGaugeForStringAtIndex(index: number): StringsState {
-    const string = this.getString(index);
-    const physicalString = findNext(string.physicalString.gauge);
-    return physicalString ? this.setString(index, {...string, physicalString}) : this;
-  }
-  decrementGaugeForStringAtIndex(index: number): StringsState {
-    const string = this.getString(index);
-    const physicalString = findPrevious(string.physicalString.gauge);
-    return physicalString ? this.setString(index, {...string, physicalString}) : this;
-  }
-  incrementScaleForStringAtIndex(index: number): StringsState {
-    const string = this.getString(index);
-    string.scale = string.scale + 0.25;
-    return this.setString(index, string);
-  }
-  decrementScaleForStringAtIndex(index: number): StringsState {
-    const string = this.getString(index);
-    string.scale = string.scale - 0.25;
-    return this.setString(index, string);
-  }
-}
-type State = {
-  strings: StringsState,
-  instrument: Instrument,
-  cache: {[Instrument]: StringsState},
-};
-
-const reducer = (state: State | void, action: Action): State => {
-  if (typeof state === 'undefined') {
-    return {strings: new StringsState(GUITAR), cache: {}, instrument: 'guitar'};
-  }
-
-  switch (action.type) {
-    case 'increment_note_at_index':
-      return {
-        ...state,
-        strings: state.strings.incrementNoteForStringAtIndex(action.index),
-      };
-    case 'decrement_note_at_index':
-      return {
-        ...state,
-        strings: state.strings.decrementNoteForStringAtIndex(action.index),
-      };
-    case 'increment_gauge_at_index':
-      return {
-        ...state,
-        strings: state.strings.incrementGaugeForStringAtIndex(action.index),
-      };
-    case 'decrement_gauge_at_index':
-      return {
-        ...state,
-        strings: state.strings.decrementGaugeForStringAtIndex(action.index),
-      };
-    case 'increment_scale_at_index':
-      return {
-        ...state,
-        strings: state.strings.incrementScaleForStringAtIndex(action.index),
-      };
-    case 'decrement_scale_at_index':
-      return {
-        ...state,
-        strings: state.strings.decrementScaleForStringAtIndex(action.index),
-      };
-    case 'select_instrument': {
-      return state.instrument === action.instrument
-        ? state
-        : {
-            ...state,
-            strings: state.cache[action.instrument] || new StringsState(forInstrument[action.instrument]),
-            instrument: action.instrument,
-            cache: {
-              ...state.cache,
-              ...{[state.instrument]: state.strings},
-            },
-          };
-    }
-    default:
-      return state;
-  }
-};
 const store = createStore(reducer);
 
 class Main extends Component<State & {dispatch: Function}> {

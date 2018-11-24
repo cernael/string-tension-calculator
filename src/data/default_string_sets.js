@@ -1,11 +1,6 @@
-import {Note} from './tension';
+import {Note} from './Note.js';
 import {findByGauge} from './kalium_strings';
-
-export type String = {
-  note: Note,
-  physicalString: PhysicalString,
-  scale: number,
-};
+import type {String} from './types.js';
 
 export const GUITAR: Array<String> = [
   {

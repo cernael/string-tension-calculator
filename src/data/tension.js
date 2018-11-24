@@ -1,42 +1,14 @@
 // @flow
 
-import Color from 'color';
+import type {Instrument} from '../types.js';
 
-export type Instrument = 'guitar' | 'bass';
+import Color from 'color';
 
 const TENSION_CONST = 386.4;
 
 export const getTension = ({unitWeight, scale, freq}: {unitWeight: number, scale: number, freq: number}): number => {
   return (unitWeight * Math.pow(2 * scale * freq, 2)) / TENSION_CONST;
 };
-
-export class Note {
-  _midi: number;
-  constructor(midi: number) {
-    this._midi = midi;
-  }
-
-  static fromMidi(midi: number) {
-    return new Note(midi);
-  }
-
-  static fromScientific(scientific: string) {
-    const midi = scientificToMidi(scientific);
-    return Note.fromMidi(midi);
-  }
-
-  freq() {
-    return midiToFreq(this._midi);
-  }
-
-  scientific() {
-    return midiToScientific(this._midi);
-  }
-
-  midi() {
-    return this._midi;
-  }
-}
 
 const SCIENTIFIC = {
   c: 0,

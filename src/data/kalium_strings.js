@@ -1,8 +1,6 @@
 // @flow
-type Gauge = number;
-type UnitWeight = number;
 
-export type PhysicalString = {gauge: Gauge, unitWeight: UnitWeight};
+import type {PhysicalString, Gauge} from '../types.js';
 
 export const data: Array<PhysicalString> = [
   [0.008, 0.00001424014582],

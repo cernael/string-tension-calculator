@@ -1,7 +1,8 @@
 // @flow
 
-import {Note, scientificToMidi, midiToScientific, midiToFreq, getTension, howTight} from './tension.js';
-import {findByGauge} from './kalium_strings.js';
+import {Note} from '../Note.js';
+import {scientificToMidi, midiToScientific, midiToFreq, getTension, howTight} from '../tension.js';
+import {findByGauge} from '../kalium_strings.js';
 
 (test: any).each(['lol', 'Ab', 'A#11t', 'A1?1'])('from scientific blows up with %p', scientific => {
   expect(() => Note.fromScientific(scientific)).toThrowError('scientific');
