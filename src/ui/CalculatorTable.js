@@ -41,11 +41,25 @@ export class CalculatorTable extends Component<Props> {
             <th>Tension</th>
             <th>Frequency</th>
           </tr>
+          <tr>
+            <th />
+            <th />
+            <th />
+            <th />
+            <th />
+          </tr>
         </thead>
         <tbody>
           {this.props.strings.getStrings().map((s, index) => (
             <StringRow index={index} string={s} key={index} />
           ))}
+          <tr>
+            <td colSpan="5">
+              <button className="btn btn-primary" onClick={() => dispatch({type: 'add_string'})}>
+                Add string
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     );

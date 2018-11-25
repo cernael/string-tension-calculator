@@ -8,11 +8,11 @@ export type Gauge = number;
 export type UnitWeight = number;
 export type PhysicalString = {gauge: Gauge, unitWeight: UnitWeight};
 
-export type String = {
+export type String = {|
   note: Note,
   physicalString: PhysicalString,
   scale: number,
-};
+|};
 
 export type Action =
   | {|
@@ -60,10 +60,13 @@ export type Action =
   | {|
       type: 'select_instrument',
       instrument: Instrument,
+    |}
+  | {|
+      type: 'add_string',
     |};
 
-export type State = {
+export type State = {|
   strings: StringsState,
   instrument: Instrument,
   cache: {[Instrument]: StringsState},
-};
+|};

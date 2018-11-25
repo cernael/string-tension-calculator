@@ -4,6 +4,7 @@ import type {String} from '../types.js';
 
 import {Note} from './Note.js';
 import {findNext, findPrevious} from './kalium_strings';
+import {makeNextString} from './utils.js';
 
 export class StringsState {
   _strings: Array<String>;
@@ -24,7 +25,7 @@ export class StringsState {
   }
 
   setString(index: number, string: String): StringsState {
-    if (index !== 0 && !this._strings[index - 1]) {
+    if (index !== this._strings.length && !this._strings[index - 1]) {
       throw new Error(
         `can't set sparse strings. string index given: ${index}, strings: ${JSON.stringify(this._strings)}`,
       );
@@ -81,5 +82,11 @@ export class StringsState {
   }
   decrementScaleAll(): StringsState {
     return this._strings.reduce((result, strings, index) => result.decrementScaleForStringAtIndex(index), this);
+  }
+  addString(): StringsState {
+    const lastString = this._strings[this._strings.length - 1];
+    const newIndex = this._strings.length;
+    const newString = makeNextString(lastString);
+    return this.setString(newIndex, newString);
   }
 }

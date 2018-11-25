@@ -17,15 +17,21 @@ export class Note {
     return Note.fromMidi(midi);
   }
 
-  freq() {
+  freq(): number {
     return midiToFreq(this._midi);
   }
 
-  scientific() {
+  scientific(): string {
     return midiToScientific(this._midi);
   }
 
   midi() {
     return this._midi;
+  }
+
+  // return a new note that is `steps` steps away from the
+  // original note
+  interval(steps: number) {
+    return new Note(this._midi + steps);
   }
 }

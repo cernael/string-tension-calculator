@@ -67,6 +67,11 @@ export const reducer = (state: State | void, action: Action): State => {
             },
           };
     }
+    case 'add_string':
+      return {
+        ...state,
+        strings: state.strings.addString(),
+      };
     default:
       return state;
   }
