@@ -6,8 +6,9 @@ import {Note} from '../Note.js';
 import {findByGauge} from '../kalium_strings.js';
 
 const g045 = findByGauge(0.045);
+const g061 = findByGauge(0.061);
 
-describe.skip('nextString()', () => {
+describe('nextString()', () => {
   const testStrings: Array<[String, String]> = [
     [
       {
@@ -16,9 +17,9 @@ describe.skip('nextString()', () => {
         physicalString: g045,
       },
       {
-        note: Note.fromScientific('B2'),
+        note: Note.fromScientific('B1'),
         scale: 25.5,
-        physicalString: g045,
+        physicalString: g061,
       },
     ],
   ];
