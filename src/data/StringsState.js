@@ -25,7 +25,7 @@ export class StringsState {
   }
 
   setString(index: number, string: String): StringsState {
-    if (index !== this._strings.length && !this._strings[index - 1]) {
+    if (index !== this._strings.length && (index !== 0 && !this._strings[index - 1])) {
       throw new Error(
         `can't set sparse strings. string index given: ${index}, strings: ${JSON.stringify(this._strings)}`,
       );
