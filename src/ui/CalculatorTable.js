@@ -1,17 +1,17 @@
 // @flow
 
-import type {StringsState} from '../data/StringsState.js';
+import type {State} from '../types.js';
 import React, {Component} from 'react';
 
 import {StringRow} from './StringRow';
 import {AdjustButtons} from './AdjustButtons.js';
+import {ScalePresetsSelector} from './ScalePresetsSelector';
 import {dispatch} from '../data/store';
+import {connect} from 'react-redux';
 
-type Props = {|
-  strings: StringsState,
-|};
+type Props = State;
 
-export class CalculatorTable extends Component<Props> {
+export class CalculatorTableComponent extends Component<Props> {
   render() {
     return (
       <table className="table table-bordered mt-3">
@@ -42,7 +42,9 @@ export class CalculatorTable extends Component<Props> {
             <th>Frequency</th>
           </tr>
           <tr>
-            <th />
+            <th>
+              <ScalePresetsSelector instrument={this.props.instrument} strings={this.props.strings} />
+            </th>
             <th />
             <th />
             <th />
@@ -51,7 +53,7 @@ export class CalculatorTable extends Component<Props> {
         </thead>
         <tbody>
           {this.props.strings.getStrings().map((s, index) => (
-            <StringRow index={index} string={s} key={index} />
+            <StringRow index={index} string={s} instrument={this.props.instrument} key={index} />
           ))}
           <tr>
             <td colSpan="5">
@@ -65,3 +67,5 @@ export class CalculatorTable extends Component<Props> {
     );
   }
 }
+
+export const CalculatorTable = connect(state => state)(CalculatorTableComponent);

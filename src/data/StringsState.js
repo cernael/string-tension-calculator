@@ -5,6 +5,7 @@ import type {String} from '../types.js';
 import {Note} from './Note.js';
 import {findNext, findPrevious} from './kalium_strings';
 import {makeNextString} from './utils.js';
+import invariant from '../invariant.js';
 
 export class StringsState {
   _strings: Array<String>;
@@ -12,7 +13,7 @@ export class StringsState {
     this._strings = strings;
   }
 
-  getStrings() {
+  getStrings(): Array<String> {
     return this._strings;
   }
 
@@ -88,5 +89,13 @@ export class StringsState {
     const newIndex = this._strings.length;
     const newString = makeNextString(lastString);
     return this.setString(newIndex, newString);
+  }
+  setScales(scales: Array<number>) {
+    invariant(
+      this._strings.length === scales.length,
+      `Can't set scales, because current state has different number of strings.`,
+    );
+    const strings = this._strings.map((s, index) => ({...s, scale: scales[index]}));
+    return new StringsState(strings);
   }
 }

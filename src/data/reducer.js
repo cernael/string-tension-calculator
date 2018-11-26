@@ -72,6 +72,8 @@ export const reducer = (state: State | void, action: Action): State => {
         ...state,
         strings: state.strings.addString(),
       };
+    case 'set_scales':
+      return {...state, strings: state.strings.setScales(action.scales)};
     default:
       return state;
   }

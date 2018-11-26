@@ -63,6 +63,10 @@ export type Action =
     |}
   | {|
       type: 'add_string',
+    |}
+  | {|
+      type: 'set_scales',
+      scales: Array<number>,
     |};
 
 export type State = {|

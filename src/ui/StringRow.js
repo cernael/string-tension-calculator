@@ -1,21 +1,21 @@
 // @flow
 
-import type {Action, State, String} from '../types.js';
+import type {String, Instrument} from '../types.js';
 
 import {AdjustButtons} from './AdjustButtons.js';
 import {DataBadge} from './DataBadge.js';
 import {getTension, getTightnessColor} from '../data/tension.js';
 import {roundTo} from '../data/utils.js';
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import {dispatch} from '../data/store.js';
 
-type StringRowProps = State & {
+type StringRowProps = {|
   string: String,
   index: number,
-  dispatch: Action => void,
-};
+  instrument: Instrument,
+|};
 
-class StringRowComponent extends Component<StringRowProps> {
+export class StringRow extends Component<StringRowProps> {
   render() {
     const scientific = this.props.string.note.scientific();
     const scale = this.props.string.scale;
@@ -31,11 +31,11 @@ class StringRowComponent extends Component<StringRowProps> {
         <td>
           <DataBadge value={this.props.string.scale} />
           <AdjustButtons
-            onUp={this.props.dispatch.bind(null, {
+            onUp={dispatch.bind(null, {
               type: 'increment_scale_at_index',
               index: this.props.index,
             })}
-            onDown={this.props.dispatch.bind(null, {
+            onDown={dispatch.bind(null, {
               type: 'decrement_scale_at_index',
               index: this.props.index,
             })}
@@ -44,11 +44,11 @@ class StringRowComponent extends Component<StringRowProps> {
         <td>
           {scientific}
           <AdjustButtons
-            onUp={this.props.dispatch.bind(null, {
+            onUp={dispatch.bind(null, {
               type: 'increment_note_at_index',
               index: this.props.index,
             })}
-            onDown={this.props.dispatch.bind(null, {
+            onDown={dispatch.bind(null, {
               type: 'decrement_note_at_index',
               index: this.props.index,
             })}
@@ -58,11 +58,11 @@ class StringRowComponent extends Component<StringRowProps> {
         <td>
           {this.props.string.physicalString.gauge}
           <AdjustButtons
-            onUp={this.props.dispatch.bind(null, {
+            onUp={dispatch.bind(null, {
               type: 'increment_gauge_at_index',
               index: this.props.index,
             })}
-            onDown={this.props.dispatch.bind(null, {
+            onDown={dispatch.bind(null, {
               type: 'decrement_gauge_at_index',
               index: this.props.index,
             })}
@@ -77,5 +77,3 @@ class StringRowComponent extends Component<StringRowProps> {
     );
   }
 }
-
-export const StringRow = connect(state => state)(StringRowComponent);
