@@ -22,6 +22,10 @@ sh.exec('rm -rf ./build');
 sh.mv(buildTar, './build.tar');
 sh.exec('tar xvf ./build.tar');
 sh.rm('./build.tar');
+
+sh.exec('git config --global user.email "you@example.com"');
+sh.exec('git config --global user.name "deploy_bot"');
+
 sh.exec('git status');
 sh.exec('git add ./build/');
 sh.exec(`git commit -m "build ${new Date().toISOString()} [ci skip]"`);
