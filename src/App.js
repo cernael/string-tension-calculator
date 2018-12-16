@@ -2,14 +2,14 @@
 
 import type {State} from './types';
 
-import React, {Component} from 'react';
 import './App.css';
+import {CalculatorTable} from './ui/CalculatorTable.js';
 import {connect, Provider} from 'react-redux';
+import {InstrumentSelector} from './ui/InstrumentSelector.js';
+import {store} from './data/store.js';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import {InstrumentSelector} from './ui/InstrumentSelector.js';
-import {CalculatorTable} from './ui/CalculatorTable.js';
-import {store} from './data/store.js';
 
 class Main extends Component<State & {dispatch: Function}> {
   render() {
