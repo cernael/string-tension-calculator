@@ -15,6 +15,9 @@ jobs:
     docker:
       - image: circleci/node:10-browsers
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "21:2b:e9:22:ad:4c:d8:53:7c:5d:b4:84:80:8d:a2:2e"
       - checkout
       - run: yarn --no-progress
       - run: yarn build
