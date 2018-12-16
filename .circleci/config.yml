@@ -11,12 +11,28 @@ jobs:
       - run: yarn flow
       - run: yarn test-ci
       - run: yarn lint
+  build_and_deploy:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - checkout
+      - run: yarn --no-progress
+      - run: yarn build
+      - run: yarn flow
+      - run: yarn test-ci
+      - run: yarn lint
+      - run: node ./scripts/deploy.js
+
 
 workflows:
   version: 2
-  build_and_test:
+  build:
     jobs:
       - test:
           filters:
             branches:
-              ignore: deploy-prod
+              ignore: master 
+      - build_and_deploy:
+          filters:
+            branches:
+              only: master
