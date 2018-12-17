@@ -4,11 +4,14 @@ import type {State, Action} from '../types.js';
 
 import {forInstrument, GUITAR} from './default_string_sets';
 import {StringsState} from './StringsState.js';
+import {log} from './ga_logger';
 
 export const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
     return {strings: new StringsState(GUITAR), cache: {}, instrument: 'guitar'};
   }
+
+  log(action);
 
   switch (action.type) {
     case 'increment_note_at_index':
