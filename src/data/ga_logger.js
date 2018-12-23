@@ -1,6 +1,6 @@
 // @flow
 
-/* global ga, gtag */
+/* global gtag */
 
 import type {Action} from '../types.js';
 
