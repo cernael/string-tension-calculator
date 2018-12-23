@@ -1,16 +1,14 @@
 // @flow
 
-/* global ga */
+/* global ga, gtag */
 
 import type {Action} from '../types.js';
 
 export const log = (action: Action) => {
   try {
     // $FlowFixMe ga global
-    ga('send', {
-      hitType: 'event',
-      eventCategory: 'redux_action',
-      eventAction: action.type,
+    gtag('event', action.type, {
+      event_category: 'redux_action',
     });
   } catch (e) {
     console.log('failed to log ga event');
