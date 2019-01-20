@@ -15,25 +15,18 @@ class Main extends Component<State & {dispatch: Function}> {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">String tension calculator.</h1>
-        </header>
-        <div className="container">
-          <div className="row justify-content-md-center">
-            <InstrumentSelector instrument={this.props.instrument} />
-            <CalculatorTable strings={this.props.strings} />
-            <p className="mt-4">
-              This tension calculator uses specifications from{' '}
-              <a
-                href="http://store.kaliumstrings.com/TensionCalculator/index.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Kalium Strings
-              </a>
-            </p>
-          </div>
-        </div>
+        <InstrumentSelector instrument={this.props.instrument} />
+        <CalculatorTable strings={this.props.strings} />
+        <p className="mt-4">
+          This tension calculator uses specifications from{' '}
+          <a
+            href="http://store.kaliumstrings.com/TensionCalculator/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Kalium Strings
+          </a>
+        </p>
         <div className="row justify-content-md-center">
           <a
             href="https://twitter.com/aarondjents"

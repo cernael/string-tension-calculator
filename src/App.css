@@ -1,5 +1,97 @@
-.App {
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #1e1e24;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+#root {
+  display: flex;
+  height: 100%;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.instrument-selector {
+  position: relative;
+  height: 45px;
+  width: 160px;
+  margin: 20px auto;
+  background: #2a2a33;
+  border-radius: 30px;
+}
+
+.instrument-selector .switch {
+  position: relative;
+  height: 26px;
+  width: 120px;
+  margin: 20px auto;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.instrument-selector .switch-label {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 78px;
+  line-height: 45px;
+  font-size: 16px;
+  color: #6a6a7b;
   text-align: center;
+  /* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45); */
+  cursor: pointer;
+}
+.instrument-selector .switch-label:active {
+  /* font-weight: bold; */
+}
+
+.instrument-selector .switch-label-off {
+  padding-left: 2px;
+}
+
+.instrument-selector .switch-label-on {
+  padding-right: 2px;
+}
+
+
+.instrument-selector .switch-input {
+  display: none;
+}
+.instrument-selector .switch-input:checked + .switch-label {
+  color: #fff;
+}
+.instrument-selector .switch-input:checked + .switch-label-on ~ .switch-selection {
+  left: 76px;
+  /* Note: left: 50%; doesn't transition in WebKit */
+}
+
+.instrument-selector .switch-selection {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 4px;
+  display: block;
+  width: 80px;
+  height: 39px;
+  border-radius: 29px;
+  background-color: #663df3;
+  box-shadow: inset 2px 2px rgb(114, 74, 244), 0 0 2px rgb(0, 0, 0);
+  transition: left 0.15s ease-out;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -22,7 +114,77 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.adjustable-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 70px;
 }
+
+.adjustable-cell .adjustable-cell-up, .adjustable-cell .adjustable-cell-down {
+  height: 15px;
+  background-color: #383845;
+  cursor: pointer;
+}
+
+.adjustable-cell .adjustable-cell-up:hover, .adjustable-cell .adjustable-cell-down:hover {
+  background-color: #464656;
+}
+
+.adjustable-cell .adjustable-cell-arrow-up, .adjustable-cell .adjustable-cell-arrow-down {
+  position: relative;
+  top: 5px;
+  display: flex;
+  margin: auto;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.adjustable-cell .adjustable-cell-arrow-up {
+  border-bottom: 5px solid white;
+}
+
+.adjustable-cell .adjustable-cell-arrow-down {
+  width: 0; 
+  height: 0; 
+  border-top: 5px solid white;
+}
+
+.calculator-table tbody, .calculator-table thead {
+  display: flex;
+  width: 390px;
+  flex-direction: column;
+}
+.calculator-table tr, .calculator-table tr {
+  display: flex;
+  width: 100%;
+  margin: 8px 0;
+  border-radius: 3px;
+  /* align-items: stretch; */
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.calculator-table td, .calculator-table th {
+  /* border: 1px solid #1e1e24;
+  border-collapse: collapse; */
+  margin-right: 1px;
+  padding: 0;
+  background-color: #2a2a33;
+  flex-basis: 20%;
+  text-align: center;
+}
+
+.freq-td, .tension-td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tension-td {
+  display: flex;
+  flex-direction: column;
+}
+

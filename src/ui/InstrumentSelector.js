@@ -6,25 +6,37 @@ import {dispatch} from '../data/store.js';
 
 export class InstrumentSelector extends Component<{instrument: Instrument}, any> {
   render() {
-    const baseClass = 'btn btn-lg btn-block ';
-    const bassClass = baseClass + (this.props.instrument === 'bass' ? 'btn-primary' : 'btn-secondary');
-    const guitarClass = baseClass + (this.props.instrument === 'guitar' ? 'btn-primary' : 'btn-secondary');
+    const bassChecked = this.props.instrument === 'bass';
+    const guitarChecked = this.props.instrument === 'guitar';
     return (
-      <div style={{width: '100%'}} className="mt-3">
-        <button
-          type="button"
-          className={guitarClass}
-          onClick={dispatch.bind(null, {type: 'select_instrument', instrument: 'guitar'})}
-        >
-          Guitar
-        </button>
-        <button
-          type="button"
-          className={bassClass}
-          onClick={dispatch.bind(null, {type: 'select_instrument', instrument: 'bass'})}
-        >
-          Bass
-        </button>
+      <div>
+        <div className="instrument-selector">
+          <input
+            type="radio"
+            className="switch-input"
+            id="guitar"
+            value={this.props.instrument}
+            name="instrument"
+            checked={guitarChecked}
+            onChange={dispatch.bind(null, {type: 'select_instrument', instrument: 'guitar'})}
+          />
+          <label htmlFor="guitar" className="switch-label switch-label-off">
+            Guitar
+          </label>
+          <input
+            type="radio"
+            className="switch-input"
+            id="bass"
+            value={this.props.instrument}
+            name="instrument"
+            checked={bassChecked}
+            onChange={dispatch.bind(null, {type: 'select_instrument', instrument: 'bass'})}
+          />
+          <label htmlFor="bass" className="switch-label switch-label-on">
+            Bass
+          </label>
+          <span className="switch-selection" />
+        </div>
       </div>
     );
   }
