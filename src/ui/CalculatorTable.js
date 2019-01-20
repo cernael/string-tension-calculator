@@ -4,7 +4,7 @@ import type {State} from '../types.js';
 import React, {Component} from 'react';
 
 import {StringRow} from './StringRow';
-import {AdjustButtons} from './AdjustButtons.js';
+import {AdjustableCell} from './AdjustableCell.js';
 import {ScalePresetsSelector} from './ScalePresetsSelector';
 import {dispatch} from '../data/store';
 import {connect} from 'react-redux';
@@ -14,32 +14,35 @@ type Props = State;
 export class CalculatorTableComponent extends Component<Props> {
   render() {
     return (
-      <table className="table table-bordered mt-3">
+      <table className="calculator-table">
         <thead className="thead-dark">
           <tr>
             <th>
-              Scale
-              <AdjustButtons
+              <AdjustableCell
                 onUp={() => dispatch({type: 'increment_scale_all'})}
                 onDown={() => dispatch({type: 'decrement_scale_all'})}
-              />
+              >
+                Scale
+              </AdjustableCell>
             </th>
             <th>
-              Note
-              <AdjustButtons
+              <AdjustableCell
                 onUp={() => dispatch({type: 'increment_note_all'})}
                 onDown={() => dispatch({type: 'decrement_note_all'})}
-              />
+              >
+                Note
+              </AdjustableCell>
             </th>
             <th>
-              Gauge
-              <AdjustButtons
+              <AdjustableCell
                 onUp={() => dispatch({type: 'increment_gauge_all'})}
                 onDown={() => dispatch({type: 'decrement_gauge_all'})}
-              />
+              >
+                Gauge
+              </AdjustableCell>
             </th>
-            <th>Tension</th>
-            <th>Frequency</th>
+            <th style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}}>Tension</th>
+            <th style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}}>Frequency</th>
           </tr>
           <tr>
             <th>
