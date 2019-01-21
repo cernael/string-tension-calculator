@@ -3,7 +3,6 @@
 import type {String, Instrument} from '../types.js';
 
 import {AdjustableCell} from './AdjustableCell.js';
-import {DataBadge} from './DataBadge.js';
 import {getTension, getTightnessColor} from '../data/tension.js';
 import {roundTo} from '../data/utils.js';
 import React, {Component} from 'react';
@@ -39,7 +38,7 @@ export class StringRow extends Component<StringRowProps> {
               index: this.props.index,
             })}
           >
-            <DataBadge value={this.props.string.scale} />
+            {this.props.string.scale}"
           </AdjustableCell>
         </td>
         <td>
@@ -72,11 +71,16 @@ export class StringRow extends Component<StringRowProps> {
           </AdjustableCell>
         </td>
 
-        <td className="tension-td" style={{color: getTightnessColor({tension, instrument: this.props.instrument})}}>
-          <span className="tension-value">{roundTo(tension, 3)}</span>
-          <span className="tension-label">lbs</span>
+        <td className="tension-td">
+          <span style={{color: getTightnessColor({tension, instrument: this.props.instrument})}}>
+            {roundTo(tension, 3)}
+          </span>
+          <span>lbs</span>
         </td>
-        <td className="freq-td">{roundTo(this.props.string.note.freq(), 3)}</td>
+        <td className="freq-td">
+          <span>{roundTo(this.props.string.note.freq(), 3)}</span>
+          <span>Hz</span>
+        </td>
       </tr>
     );
   }

@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 
 import {StringRow} from './StringRow';
 import {AdjustableCell} from './AdjustableCell.js';
-import {ScalePresetsSelector} from './ScalePresetsSelector';
 import {dispatch} from '../data/store';
 import {connect} from 'react-redux';
 
@@ -44,27 +43,11 @@ export class CalculatorTableComponent extends Component<Props> {
             <th style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}}>Tension</th>
             <th style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}}>Frequency</th>
           </tr>
-          <tr>
-            <th>
-              <ScalePresetsSelector instrument={this.props.instrument} strings={this.props.strings} />
-            </th>
-            <th />
-            <th />
-            <th />
-            <th />
-          </tr>
         </thead>
         <tbody>
           {this.props.strings.getStrings().map((s, index) => (
             <StringRow index={index} string={s} instrument={this.props.instrument} key={index} />
           ))}
-          <tr>
-            <td colSpan="5">
-              <button className="btn btn-primary" onClick={() => dispatch({type: 'add_string'})}>
-                Add string
-              </button>
-            </td>
-          </tr>
         </tbody>
       </table>
     );

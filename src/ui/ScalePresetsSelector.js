@@ -40,6 +40,7 @@ export class ScalePresetsSelector extends Component<Props, State> {
 
     return (
       <select
+        className="scale-selector"
         style={{width: '100%'}}
         onChange={e => this.onChange(e)}
         value={isSelected ? this.state.existingSerialization : ''}

@@ -5,7 +5,9 @@ import type {State} from './types';
 import './App.css';
 import {CalculatorTable} from './ui/CalculatorTable.js';
 import {connect, Provider} from 'react-redux';
+import {dispatch} from './data/store.js';
 import {InstrumentSelector} from './ui/InstrumentSelector.js';
+import {ScalePresetsSelector} from './ui/ScalePresetsSelector.js';
 import {store} from './data/store.js';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -15,26 +17,37 @@ class Main extends Component<State & {dispatch: Function}> {
   render() {
     return (
       <div className="App">
-        <InstrumentSelector instrument={this.props.instrument} />
+        <div className="header">
+          <div className="header-logo">
+            <img src="/logo_header.png" alt="logo" />
+            <h1>
+              <span>String Tension</span>
+              <span>Calculator</span>
+            </h1>
+          </div>
+          <InstrumentSelector instrument={this.props.instrument} />
+        </div>
+        <ScalePresetsSelector instrument={this.props.instrument} strings={this.props.strings} />
         <CalculatorTable strings={this.props.strings} />
-        <p className="mt-4">
-          This tension calculator uses specifications from{' '}
-          <a
-            href="http://store.kaliumstrings.com/TensionCalculator/index.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Kalium Strings
-          </a>
-        </p>
-        <div className="row justify-content-md-center">
-          <a
-            href="https://twitter.com/aarondjents"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="badge badge-light mt-1"
-          >
-            @aarondjents
+        <button className="add-string-button" onClick={() => dispatch({type: 'add_string'})}>
+          ＋ Add string
+        </button>
+        <div className="footer">
+          <p>
+            <span>This tension calculator uses</span>
+            <span>
+              specifications from{' '}
+              <a
+                href="http://store.kaliumstrings.com/TensionCalculator/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Kalium Strings
+              </a>
+            </span>
+          </p>
+          <a href="https://twitter.com/aarondjents" target="_blank" rel="noopener noreferrer" className="twitter-link">
+            <img src="/twitter.png" alt="twitter" />
           </a>
         </div>
       </div>
