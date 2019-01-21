@@ -53,9 +53,6 @@ a {
   /* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45); */
   cursor: pointer;
 }
-.instrument-selector .switch-label:active {
-  /* font-weight: bold; */
-}
 
 .instrument-selector .switch-label-off {
   padding-left: 2px;
@@ -82,7 +79,7 @@ a {
   background-color: #663df3;
   box-shadow: inset 3px 3px rgb(114, 74, 244), 0 0 2px rgb(0, 0, 0);
   border: 0;
-  height: 39px;
+  min-height: 39px;
 }
 
 .add-string-button {
@@ -229,6 +226,7 @@ a {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  min-height: 85px;
 }
 
 .header-logo {
@@ -255,6 +253,7 @@ a {
   color: white;
   padding: 10px;
   border: 0;
+  min-height: 40px;
   border-radius: 3px;
   background-image: url(/dropdown.png);
   background-position: right;
