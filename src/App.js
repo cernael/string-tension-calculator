@@ -37,11 +37,7 @@ class Main extends Component<State & {dispatch: Function}> {
             <span>This tension calculator uses</span>
             <span>
               specifications from{' '}
-              <a
-                href="http://store.kaliumstrings.com/TensionCalculator/index.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://www.kaliummusic.com" target="_blank" rel="noopener noreferrer">
                 Kalium Strings
               </a>
             </span>
