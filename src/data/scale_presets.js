@@ -8,7 +8,7 @@ export type ScalePresets = Array<{|name: string, key: string, scales: Array<numb
 
 const makeSingleScalePreset = (scale: number, existingScales: Array<number>) => {
   const scales = new Array(existingScales.length).fill(scale);
-  return {name: `${scale}"`, key: serializeScales(scales), scales, category: 'Single Scale'};
+  return {name: `Single scale:  ${scale}"`, key: serializeScales(scales), scales, category: 'Single Scale'};
 };
 
 const makeMultiScalePreset = (shortest: number, longest: number, existingScales: Array<number>) => {
@@ -16,14 +16,19 @@ const makeMultiScalePreset = (shortest: number, longest: number, existingScales:
   const scales = new Array(existingScales.length)
     .fill(0)
     .map((_, index, result) => roundTo(shortest + index * step, 2));
-  return {name: `${shortest}" - ${longest}"`, key: serializeScales(scales), scales, category: 'Multiscale'};
+  return {
+    name: `Multiscale:  ${shortest}" - ${longest}"`,
+    key: serializeScales(scales),
+    scales,
+    category: 'Multiscale',
+  };
 };
 
 export const getScalePresets = (instrument: Instrument, existingScales: Array<number>): ScalePresets => {
   switch (instrument) {
     case 'guitar':
       return [
-        ...[25.5, 24, 26, 27, 24.75].map(scale => makeSingleScalePreset(scale, existingScales)),
+        ...[25.5, 24, 26, 26.5, 27, 27.5, 24.75].map(scale => makeSingleScalePreset(scale, existingScales)),
         ...[[25.5, 27], [25, 25.5], [25.5, 26.25], [26.5, 28]].map(([s, l]) =>
           makeMultiScalePreset(s, l, existingScales),
         ),
