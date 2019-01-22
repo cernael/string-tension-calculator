@@ -191,11 +191,10 @@ a {
 .calculator-table th {
   color: #6A6A7C;
   font-size: 15px;
+  position: relative;
 }
 
 .calculator-table td, .calculator-table th {
-  /* border: 1px solid #1e1e24;
-  border-collapse: collapse; */
   margin-right: 1px;
   padding: 0;
   background-color: #2a2a33;
@@ -216,11 +215,6 @@ a {
   position: absolute;
   bottom: 4px;
 }
-
-/* .tension-td {
-  display: flex;
-  flex-direction: column;
-} */
 
 .header {
   display: flex;
@@ -300,4 +294,53 @@ a {
 .footer img {
   width: 40px;
   height: 40px;
+}
+
+.help-icon {
+  position: absolute;
+  bottom: 4px;
+  color: #6631F7;
+  font-size: 17px;
+  background-color: #383845;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.help-box td {
+  flex-basis: 100%;
+  text-align: left;
+  padding: 15px 15px;
+  position: relative;
+}
+
+.help-box h4 {
+  margin: 0px;
+  padding: 0px;
+}
+
+.help-box p, .help-box ul {
+  color: #6A6A7C;
+}
+
+.help-box .gradient-image-legend {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.gradient-image {
+  border-radius: 4px;
+  background: linear-gradient(to right, rgb(255 ,255, 0), white,  rgb(255, 0, 0));
+  height: 30px;
+  width: 100%;
+}
+
+.close-help-box {
+  font-size: 30px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  cursor: pointer;
 }

@@ -8,7 +8,12 @@ import {log} from './ga_logger';
 
 export const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
-    return {strings: new StringsState(GUITAR), cache: {}, instrument: 'guitar'};
+    return {
+      strings: new StringsState(GUITAR),
+      cache: {},
+      instrument: 'guitar',
+      displayTensionHelpBox: false,
+    };
   }
 
   log(action);
@@ -77,6 +82,8 @@ export const reducer = (state: State | void, action: Action): State => {
       };
     case 'set_scales':
       return {...state, strings: state.strings.setScales(action.scales)};
+    case 'toggle_tension_help_box':
+      return {...state, displayTensionHelpBox: action.toggle != null ? action.toggle : !state.displayTensionHelpBox};
     default:
       return state;
   }

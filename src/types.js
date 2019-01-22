@@ -67,10 +67,15 @@ export type Action =
   | {|
       type: 'set_scales',
       scales: Array<number>,
+    |}
+  | {|
+      type: 'toggle_tension_help_box',
+      toggle?: boolean,
     |};
 
 export type State = {|
   strings: StringsState,
   instrument: Instrument,
   cache: {[Instrument]: StringsState},
+  displayTensionHelpBox: boolean,
 |};
