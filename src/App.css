@@ -201,6 +201,9 @@ a {
   flex-basis: 20%;
   text-align: center;
 }
+.calculator-table td:last-child, .calculator-table th:last-child {
+  margin-right: 0px;
+}
 
 .freq-td, .tension-td {
   display: flex;
