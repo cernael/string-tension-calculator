@@ -42,7 +42,7 @@ export class CalculatorTableComponent extends Component<Props> {
               </AdjustableCell>
             </th>
             <th style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}}>
-              Tension
+              <span>Tension</span>
               <span className="help-icon" onClick={dispatch.bind(null, {type: 'toggle_tension_help_box'})}>
                 ?
               </span>
