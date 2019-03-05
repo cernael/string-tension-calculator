@@ -1,3 +1,3 @@
 export const isGoogleBot = () => {
-  (window.navigator.userAgent || '').match(/googlebot/gim);
+  return (window.navigator.userAgent || '').match(/googlebot/gim);
 };
