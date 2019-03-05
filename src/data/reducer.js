@@ -5,6 +5,7 @@ import type {State, Action} from '../types.js';
 import {forInstrument, GUITAR} from './default_string_sets';
 import {StringsState} from './StringsState.js';
 import {log} from './ga_logger';
+import {isGoogleBot} from '../is_google_bot.js';
 
 export const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
@@ -12,7 +13,7 @@ export const reducer = (state: State | void, action: Action): State => {
       strings: new StringsState(GUITAR),
       cache: {},
       instrument: 'guitar',
-      displayTensionHelpBox: false,
+      displayTensionHelpBox: isGoogleBot(),
     };
   }
 

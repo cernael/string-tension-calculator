@@ -42,7 +42,6 @@ class Main extends Component<State & {dispatch: Function}> {
               </a>
             </span>
           </p>
-          <h1>{window.navigator.userAgent}</h1>
           <a href="https://twitter.com/aarondjents" target="_blank" rel="noopener noreferrer" className="twitter-link">
             <img src="/twitter.png" alt="twitter" />
           </a>
