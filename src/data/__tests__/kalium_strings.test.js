@@ -15,19 +15,21 @@ import leftPad from 'left-pad';
   expect(() => findByGauge(gauge)).toThrow(/gauge/);
 });
 
-(test: any).each([[0.15, 0.142, 0.158], [0.254, 0.244, 0.266], [0.01, 0.0095, 0.0105]])(
-  'for %p, next: %p, prev: %p',
-  (gauge, prev, next) => {
-    expect(findNext(gauge)).toMatchObject({gauge: next});
-    expect(findPrevious(gauge)).toMatchObject({gauge: prev});
-  },
-);
+test('string search', () => {
+  let result = [];
+  let gauge = 0.005;
+  while (gauge < 0.28) {
+    const prev = findPrevious(gauge);
+    const next = findNext(gauge);
 
-test('wont find thinner string', () => {
-  expect(findPrevious(0.008)).toBeUndefined();
-});
-test('wont find thicker string', () => {
-  expect(findNext(0.266)).toBeUndefined();
+    const cg = leftPad(roundTo(gauge, 4), 7);
+    const pg = prev ? leftPad(roundTo(prev.gauge, 4), 7) : leftPad('NONE', 7);
+    const ng = next ? leftPad(roundTo(next.gauge, 4), 7) : leftPad('NONE', 7);
+    result.push(`gauge: ${cg} | prev: ${pg} | next: ${ng}`);
+
+    gauge += 0.001;
+  }
+  expect(result).toMatchSnapshot();
 });
 
 test('snapshot all tensions for a freq', () => {
