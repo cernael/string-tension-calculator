@@ -1,6 +1,10 @@
 // @flow
 
-import {findByGauge, findNext, findPrevious} from '../kalium_strings';
+import {findByGauge, findNext, findPrevious, data} from '../kalium_strings';
+import {getTension} from '../tension.js';
+import {Note} from '../Note.js';
+import {roundTo} from '../utils.js';
+import leftPad from 'left-pad';
 
 (test: any).each([0.059, 0.11, 0.114])('finds %p string', gauge => {
   expect(findByGauge(gauge)).toHaveProperty('gauge', gauge);
@@ -24,4 +28,14 @@ test('wont find thinner string', () => {
 });
 test('wont find thicker string', () => {
   expect(findNext(0.266)).toBeUndefined();
+});
+
+test('snapshot all tensions for a freq', () => {
+  const note = Note.fromScientific('A3');
+  expect(
+    data.map(({gauge, unitWeight}) => {
+      const tension = getTension({unitWeight, scale: 25.5, freq: note.freq()});
+      return `gauge: ${leftPad(gauge, 10)} | tension: ${leftPad(roundTo(tension, 4), 10)}`;
+    }),
+  ).toMatchSnapshot();
 });
