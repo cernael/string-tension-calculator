@@ -35,7 +35,7 @@ test('snapshot all tensions for a freq', () => {
   expect(
     data.map(({gauge, unitWeight}) => {
       const tension = getTension({unitWeight, scale: 25.5, freq: note.freq()});
-      return `gauge: ${leftPad(gauge, 10)} | tension: ${leftPad(roundTo(tension, 4), 10)}`;
+      return `gauge: ${leftPad(gauge, 10)} | tension: ${leftPad(roundTo(tension, 2), 10)}`;
     }),
   ).toMatchSnapshot();
 });
