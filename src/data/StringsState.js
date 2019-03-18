@@ -46,7 +46,12 @@ export class StringsState {
   }
   decrementNoteForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
-    string.note = Note.fromMidi(string.note.midi() - 1);
+    const newMidi = string.note.midi() - 1;
+    // If it's the lowest note, keep it unchanged
+    if (newMidi < 0) {
+      return this;
+    }
+    string.note = Note.fromMidi(newMidi);
     return this.setString(index, string);
   }
   decrementNoteAll(): StringsState {
