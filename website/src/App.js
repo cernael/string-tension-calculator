@@ -1,14 +1,20 @@
 // @flow
 
-// import type {State} from './types';
-
 import './App.css';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import Calculator from 'string-tension-calculator';
 
-// class Main extends Component<State & {dispatch: Function}> {
+// To start a local server:
+// - cd calculator
+// - yarn
+// - yarn start
+// open another terminal
+// - cd website
+// - yarn
+// - yarn start
+
 class Main extends Component<any> {
   render() {
     return (
