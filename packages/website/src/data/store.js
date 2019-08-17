@@ -1,8 +1,8 @@
 // @flow
 
-import type {Action} from '../types.js';
-import {createStore} from 'redux';
-import {reducer} from './reducer.js';
+import type { Action } from '../types.js';
+import { createStore } from 'redux';
+import { reducer } from './reducer.js';
 
 export const store = createStore(reducer);
 

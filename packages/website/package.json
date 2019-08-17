@@ -1,5 +1,5 @@
 {
-  "name": "string-tension-calculator",
+  "name": "string-tension-calculator-website",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,7 +8,6 @@
     "array.prototype.find": "^2.0.4",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
-    "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
     "babel-preset-react-app": "^3.1.1",
@@ -19,14 +18,6 @@
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "4.10.0",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-loader": "1.9.0",
-    "eslint-plugin-flowtype": "^3.2.0",
-    "eslint-plugin-import": "2.8.0",
-    "eslint-plugin-jsx-a11y": "5.1.1",
-    "eslint-plugin-react": "7.4.0",
-    "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "flow-bin": "^0.77.0",
     "fs-extra": "3.0.1",
@@ -55,10 +46,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test-ci": "jest --ci",
-    "test": "jest",
-    "lint": "eslint ."
+    "build": "node scripts/build.js"
   },
   "devDependencies": {
     "babel-jest": "^23.4.0",

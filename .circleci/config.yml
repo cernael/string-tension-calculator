@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout
       - run: yarn --no-progress
+      - run: cd packages/website && yarn --no-progress
       - run: yarn build
       - run: yarn flow
       - run: yarn test-ci
@@ -20,6 +21,7 @@ jobs:
             - "21:2b:e9:22:ad:4c:d8:53:7c:5d:b4:84:80:8d:a2:2e"
       - checkout
       - run: yarn --no-progress
+      - run: cd packages/website && yarn --no-progress
       - run: yarn build
       - run: yarn flow
       - run: yarn test-ci

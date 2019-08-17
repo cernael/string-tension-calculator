@@ -1,19 +1,19 @@
 // @flow
 
-import type {State} from './types';
+import type { State } from './types';
 
 import './App.css';
-import {CalculatorTable} from './ui/CalculatorTable.js';
-import {connect, Provider} from 'react-redux';
-import {dispatch} from './data/store.js';
-import {InstrumentSelector} from './ui/InstrumentSelector.js';
-import {ScalePresetsSelector} from './ui/ScalePresetsSelector.js';
-import {store} from './data/store.js';
-import React, {Component} from 'react';
+import { CalculatorTable } from './ui/CalculatorTable.js';
+import { connect, Provider } from 'react-redux';
+import { dispatch } from './data/store.js';
+import { InstrumentSelector } from './ui/InstrumentSelector.js';
+import { ScalePresetsSelector } from './ui/ScalePresetsSelector.js';
+import { store } from './data/store.js';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 
-class Main extends Component<State & {dispatch: Function}> {
+class Main extends Component<State & { dispatch: Function }> {
   render() {
     return (
       <div className="App">
@@ -29,7 +29,7 @@ class Main extends Component<State & {dispatch: Function}> {
         </div>
         <ScalePresetsSelector instrument={this.props.instrument} strings={this.props.strings} />
         <CalculatorTable strings={this.props.strings} />
-        <button className="add-string-button" onClick={() => dispatch({type: 'add_string'})}>
+        <button className="add-string-button" onClick={() => dispatch({ type: 'add_string' })}>
           ＋ Add string
         </button>
         <div className="footer">

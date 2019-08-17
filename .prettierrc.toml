@@ -1,0 +1,7 @@
+bracketSpacing = false
+parser = "babylon"
+semi = true 
+singleQuote = true
+tabWith = 4
+trailingComma = "all"
+# insertPragma = true

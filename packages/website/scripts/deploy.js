@@ -13,12 +13,12 @@ const buildTar = path.resolve(TMPDIR, 'string-tension-calculator.tar');
 console.log(chalk.cyan(buildTar));
 
 sh.exec('yarn build');
-sh.exec(`tar cvf ${buildTar} ./build`);
-sh.exec('rm -rf ./build');
+sh.exec(`tar cvf ${buildTar} ./packages/website/build`);
+sh.exec('rm -rf ./packages/website/build');
 
 sh.exec('git checkout deploy-prod');
 
-sh.exec('rm -rf ./build');
+sh.exec('rm -rf ./packages/website/build');
 sh.mv(buildTar, './build.tar');
 sh.exec('tar xvf ./build.tar');
 sh.rm('./build.tar');
