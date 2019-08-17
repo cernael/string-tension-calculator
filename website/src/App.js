@@ -3,12 +3,6 @@
 // import type {State} from './types';
 
 import './App.css';
-import {connect, Provider} from 'react-redux';
-// import {CalculatorTable} from './ui/CalculatorTable.js';
-// import {dispatch} from './data/store.js';
-// import {InstrumentSelector} from './ui/InstrumentSelector.js';
-// import {ScalePresetsSelector} from './ui/ScalePresetsSelector.js';
-// import {store} from './data/store.js';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
@@ -54,8 +48,6 @@ class Header extends Component<any> {
     );
   }
 }
-
-const App = connect(state => state)(Main);
 
 ReactDOM.render(
   <Main />,
