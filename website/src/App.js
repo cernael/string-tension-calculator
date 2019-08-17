@@ -1,37 +1,27 @@
 // @flow
 
-import type {State} from './types';
+// import type {State} from './types';
 
 import './App.css';
-import {CalculatorTable} from './ui/CalculatorTable.js';
 import {connect, Provider} from 'react-redux';
-import {dispatch} from './data/store.js';
-import {InstrumentSelector} from './ui/InstrumentSelector.js';
-import {ScalePresetsSelector} from './ui/ScalePresetsSelector.js';
-import {store} from './data/store.js';
+// import {CalculatorTable} from './ui/CalculatorTable.js';
+// import {dispatch} from './data/store.js';
+// import {InstrumentSelector} from './ui/InstrumentSelector.js';
+// import {ScalePresetsSelector} from './ui/ScalePresetsSelector.js';
+// import {store} from './data/store.js';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
+import Calculator from 'string-tension-calculator';
 
-class Main extends Component<State & {dispatch: Function}> {
+// class Main extends Component<State & {dispatch: Function}> {
+class Main extends Component<any> {
   render() {
     return (
-      <div className="App">
-        <div className="header">
-          <div className="header-logo">
-            <img src="/logo_header.png" alt="logo" />
-            <h1>
-              <span>String Tension</span>
-              <span>Calculator</span>
-            </h1>
-          </div>
-          <InstrumentSelector instrument={this.props.instrument} />
-        </div>
-        <ScalePresetsSelector instrument={this.props.instrument} strings={this.props.strings} />
-        <CalculatorTable strings={this.props.strings} />
-        <button className="add-string-button" onClick={() => dispatch({type: 'add_string'})}>
-          ＋ Add string
-        </button>
+      <div>
+        <Calculator>
+          <Header />
+        </Calculator>
         <div className="footer">
           <p>
             <span>This tension calculator uses</span>
@@ -51,12 +41,24 @@ class Main extends Component<State & {dispatch: Function}> {
   }
 }
 
+class Header extends Component<any> {
+  render() {
+    return (
+      <div className="header-logo">
+        <img src="/logo_header.png" alt="logo" />
+        <h1>
+          <span>String Tension</span>
+          <span>Calculator</span>
+        </h1>
+      </div>
+    );
+  }
+}
+
 const App = connect(state => state)(Main);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Main />,
   // $FlowFixMe
   document.getElementById('root'),
 );

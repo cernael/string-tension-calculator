@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/calculator/node_modules
+/calculator/build
 
 # testing
 /coverage
