@@ -1,7 +1,7 @@
 {
-  "name": "string-tension-calculator",
-  "version": "0.1.0",
   "private": true,
+  "name": "string-tension-calculator-website",
+  "version": "0.1.0",
   "dependencies": {
     "array-includes": "^3.0.3",
     "array.prototype.fill": "^1.0.2",
@@ -51,13 +51,14 @@
     "webpack": "3.8.1",
     "webpack-dev-server": "2.9.4",
     "webpack-manifest-plugin": "1.3.2",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "string-tension-calculator": "../calculator"
   },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test-ci": "jest --ci",
-    "test": "jest",
+    "test-ci": "true",
+    "test": "true",
     "lint": "eslint ."
   },
   "devDependencies": {

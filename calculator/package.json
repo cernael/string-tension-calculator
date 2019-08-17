@@ -1,0 +1,39 @@
+{
+  "name": "string-tension-calculator",
+  "version": "0.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "test": "jest",
+    "test-ci": "jest --ci",
+    "start": "webpack --watch",
+    "build": "webpack"
+  },
+  "author": "Aaron Abramov",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "flow-bin": "^0.105.2",
+    "jest": "^24.9.0",
+    "react-scripts": "^3.1.1",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4"
+  }
+}
