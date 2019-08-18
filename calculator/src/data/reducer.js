@@ -10,6 +10,7 @@ import {isGoogleBot} from '../is_google_bot.js';
 export const reducer = (state: State | void, action: Action): State => {
   if (typeof state === 'undefined') {
     return {
+      enableLogging: false,
       strings: new StringsState(GUITAR),
       cache: {},
       instrument: 'guitar',
@@ -17,7 +18,9 @@ export const reducer = (state: State | void, action: Action): State => {
     };
   }
 
-  log(action);
+  if (state.enableLogging) {
+    log(action);
+  }
 
   switch (action.type) {
     case 'increment_note_at_index':
@@ -85,6 +88,9 @@ export const reducer = (state: State | void, action: Action): State => {
       return {...state, strings: state.strings.setScales(action.scales)};
     case 'toggle_tension_help_box':
       return {...state, displayTensionHelpBox: action.toggle != null ? action.toggle : !state.displayTensionHelpBox};
+    case 'set_logging_enabled': {
+      return {...state, enableLogging: action.enabled};
+    }
     default:
       return state;
   }

@@ -71,11 +71,16 @@ export type Action =
   | {|
       type: 'toggle_tension_help_box',
       toggle?: boolean,
+    |}
+  | {|
+      type: 'set_logging_enabled',
+      enabled: boolean,
     |};
 
 export type State = {|
-  strings: StringsState,
-  instrument: Instrument,
   cache: {[Instrument]: StringsState},
   displayTensionHelpBox: boolean,
+  enableLogging: boolean,
+  instrument: Instrument,
+  strings: StringsState,
 |};

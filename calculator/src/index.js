@@ -4,18 +4,14 @@ import type {State} from './types';
 
 import {CalculatorTable} from './ui/CalculatorTable.js';
 import {connect, Provider} from 'react-redux';
-import {dispatch} from './data/store.js';
 import {InstrumentSelector} from './ui/InstrumentSelector.js';
 import {ScalePresetsSelector} from './ui/ScalePresetsSelector.js';
-import {store} from './data/store.js';
-import React, {Component} from 'react';
+import {store, dispatch} from './data/store.js';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
-class Calculator extends Component<State & {dispatch: Function}> {
+class Calculator extends React.Component<State & {dispatch: Function, children?: React.Node}> {
   render() {
-    console.log(this.props);
-
-    // $FlowFixMe
     let Header = this.props.children || null;
 
     return (
@@ -36,11 +32,20 @@ class Calculator extends Component<State & {dispatch: Function}> {
 
 const App = connect(state => state)(Calculator);
 
-export default class ExportedCalculator extends Component<any> {
+type ExportedCalculatorProps = {
+  enableLogging: boolean,
+  children?: React.Node,
+};
+
+export default class ExportedCalculator extends React.Component<ExportedCalculatorProps> {
+  componentDidMount() {
+    dispatch({type: 'set_logging_enabled', enabled: this.props.enableLogging});
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <App>{this.props.children}</App>
+        <App enableLogging={this.props.enableLogging}>{this.props.children}</App>
       </Provider>
     );
   }

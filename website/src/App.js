@@ -19,7 +19,7 @@ class Main extends Component<any> {
   render() {
     return (
       <div>
-        <Calculator>
+        <Calculator enableLogging={true}>
           <Header />
         </Calculator>
         <div className="footer">

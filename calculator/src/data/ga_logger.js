@@ -4,6 +4,7 @@
 
 import type {Action} from '../types.js';
 
+// Integration between an existing google analytics on the page and redux actions
 export const log = (action: Action) => {
   try {
     // $FlowFixMe ga global
