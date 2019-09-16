@@ -13,7 +13,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
-    "flow-bin": "^0.105.0"
+    "flow-bin": "^0.107.0"
   },
   "scripts": {
     "lint": "eslint .",
