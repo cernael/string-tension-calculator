@@ -68,6 +68,7 @@ export class StringRow extends Component<StringRowProps> {
             })}
           >
             {this.props.string.physicalString.gauge}
+            {this.props.string.physicalString.type || ''}
           </AdjustableCell>
         </td>
 

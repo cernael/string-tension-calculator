@@ -59,7 +59,7 @@ export class StringsState {
   }
   incrementGaugeForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
-    const physicalString = findNext(string.physicalString.gauge);
+    const physicalString = findNext(string.physicalString);
     return physicalString ? this.setString(index, {...string, physicalString}) : this;
   }
   incrementGaugeAll(): StringsState {
@@ -67,7 +67,7 @@ export class StringsState {
   }
   decrementGaugeForStringAtIndex(index: number): StringsState {
     const string = this.getString(index);
-    const physicalString = findPrevious(string.physicalString.gauge);
+    const physicalString = findPrevious(string.physicalString);
     return physicalString ? this.setString(index, {...string, physicalString}) : this;
   }
   decrementGaugeAll(): StringsState {

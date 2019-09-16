@@ -8,13 +8,13 @@ jobs:
       - checkout
       - run: cd calculator && yarn --no-progress
       - run: cd calculator && yarn build
-      - run: cd calculator && yarn flow
       - run: cd calculator && yarn test-ci
       - run: cd website && yarn --no-progress
       - run: cd website && yarn build
-      - run: cd website && yarn flow
       - run: cd website && yarn test-ci
-      - run: cd website && yarn lint
+      - run: yarn --no-progress
+      - run: yarn lint
+      - run: yarn flow-check --max-workers 0
   build_and_deploy:
     docker:
       - image: circleci/node:10-browsers
@@ -25,13 +25,13 @@ jobs:
       - checkout
       - run: cd calculator && yarn --no-progress
       - run: cd calculator && yarn build
-      - run: cd calculator && yarn flow
       - run: cd calculator && yarn test-ci
       - run: cd website && yarn --no-progress
       - run: cd website && yarn build
-      - run: cd website && yarn flow
       - run: cd website && yarn test-ci
-      - run: cd website && yarn lint
+      - run: yarn --no-progress
+      - run: yarn lint
+      - run: yarn flow-check --max-workers 0
       - run: cd website && node ./scripts/deploy.js
 
 
@@ -42,7 +42,7 @@ workflows:
       - test:
           filters:
             branches:
-              ignore: master 
+              ignore: master
       - build_and_deploy:
           filters:
             branches:

@@ -1,3 +1,5 @@
-flow-typed/**/*.js
-build/**/*.js
+**/flow-typed/**/*.js
+**/build/**/*.js
 **/node_modules/**/*
+website/config/**/*
+website/scripts/**/*

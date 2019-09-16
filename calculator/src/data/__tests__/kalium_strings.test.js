@@ -1,6 +1,6 @@
 // @flow
 
-import {findByGauge, findNext, findPrevious, data} from '../kalium_strings';
+import {findByGauge, findNext, findPrevious, data, formatStringGauge} from '../kalium_strings';
 import {getTension} from '../tension.js';
 import {Note} from '../Note.js';
 import {roundTo} from '../utils.js';
@@ -17,17 +17,14 @@ import leftPad from 'left-pad';
 
 test('string search', () => {
   let result = [];
-  let gauge = 0.005;
-  while (gauge < 0.28) {
-    const prev = findPrevious(gauge);
-    const next = findNext(gauge);
+  for (const string of data) {
+    const prev = findPrevious(string);
+    const next = findNext(string);
 
-    const cg = leftPad(roundTo(gauge, 4), 7);
-    const pg = prev ? leftPad(roundTo(prev.gauge, 4), 7) : leftPad('NONE', 7);
-    const ng = next ? leftPad(roundTo(next.gauge, 4), 7) : leftPad('NONE', 7);
-    result.push(`gauge: ${cg} | prev: ${pg} | next: ${ng}`);
-
-    gauge += 0.001;
+    const current = leftPad(formatStringGauge(string), 7);
+    const pg = prev ? leftPad(formatStringGauge(prev), 8) : leftPad('NONE', 8);
+    const ng = next ? leftPad(formatStringGauge(next), 8) : leftPad('NONE', 8);
+    result.push(`string: ${current} | prev: ${pg} | next: ${ng}`);
   }
   expect(result).toMatchSnapshot();
 });

@@ -6,7 +6,7 @@ import type {Note} from './data/Note.js';
 export type Instrument = 'guitar' | 'bass';
 export type Gauge = number;
 export type UnitWeight = number;
-export type PhysicalString = {gauge: Gauge, unitWeight: UnitWeight};
+export type PhysicalString = {gauge: Gauge, unitWeight: UnitWeight, type?: string};
 
 export type String = {|
   note: Note,

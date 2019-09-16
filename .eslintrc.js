@@ -3,5 +3,6 @@ module.exports = {
   plugins: ['flowtype'],
   rules: {
     strict: 0,
+    'jsx-a11y/href-no-hash': 'off',
   },
 };
